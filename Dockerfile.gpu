@@ -8,6 +8,7 @@ COPY requirements.lock pyproject.toml README.md ./
 COPY src ./src
 RUN pip install --no-cache-dir -r requirements.lock && pip install --no-cache-dir ".[yolo]"
 COPY golden /app/golden
+RUN drawing-review golden --dir /app/golden
 RUN useradd --uid 10001 --no-create-home --shell /usr/sbin/nologin app
 USER 10001
 WORKDIR /app

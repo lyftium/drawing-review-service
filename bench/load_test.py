@@ -27,7 +27,7 @@ from pathlib import Path
 
 import httpx
 
-GOLDEN = Path(__file__).resolve().parents[1] / "golden" / "images"
+GOLDEN = Path(__file__).resolve().parents[1] / "golden" / "images"  # `drawing-review golden` first
 
 
 def pct(values: list[float], q: float) -> float:

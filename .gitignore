@@ -7,3 +7,12 @@ runs/
 reports/
 *.pt
 *.safetensors
+# Golden drawings are generated from golden/manifest.json, never committed.
+golden/images/
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.dxf
+*.dwg
+*.CATDrawing

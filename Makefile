@@ -12,6 +12,7 @@ test:
 	pytest
 
 eval:
+	drawing-review golden --dir golden
 	drawing-review eval --data golden --report reports/eval.md
 
 golden:

@@ -1,4 +1,4 @@
-"""Command line: ``drawing-review synth | analyze | eval``."""
+"""Command line: ``drawing-review synth | golden | analyze | eval``."""
 
 from __future__ import annotations
 
@@ -19,6 +19,9 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("-n", type=int, default=12)
     s.add_argument("--seed", type=int, default=7)
 
+    g = sub.add_parser("golden", help="generate and verify the golden drawings from their seed")
+    g.add_argument("--dir", type=Path, default=Path("golden"))
+
     a = sub.add_parser("analyze", help="analyze one file and print JSON")
     a.add_argument("path", type=Path)
 
@@ -35,6 +38,10 @@ def main(argv: list[str] | None = None) -> int:
 
         paths = generate_set(args.out, args.n, args.seed)
         print(f"wrote {len(paths)} drawings to {args.out}")
+    elif args.cmd == "golden":
+        from .synth.golden import ensure_images
+
+        print(f"{len(ensure_images(args.dir))} golden drawings ready in {args.dir}/images")
     elif args.cmd == "analyze":
         from .pipeline import Pipeline
 
@@ -43,6 +50,10 @@ def main(argv: list[str] | None = None) -> int:
     elif args.cmd == "eval":
         from .evaluation.harness import evaluate, render_markdown
 
+        if (args.data / "manifest.json").exists():
+            from .synth.golden import ensure_images
+
+            ensure_images(args.data)
         report = evaluate(args.data, settings, runs_dir=args.runs_dir)
         md = render_markdown(report)
         if args.report:

@@ -5,8 +5,11 @@ from fastapi.testclient import TestClient
 
 from drawing_review.api import create_app
 from drawing_review.config import Settings
+from drawing_review.synth.golden import ensure_images
 
 GOLDEN = Path(__file__).resolve().parents[1] / "golden"
+# The drawings are not committed: build them from the seed before collection.
+ensure_images(GOLDEN)
 
 
 @pytest.fixture

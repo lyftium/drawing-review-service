@@ -22,7 +22,9 @@ ENV PATH=/opt/venv/bin:$PATH \
 RUN groupadd --gid 10001 app && useradd --uid 10001 --gid app --no-create-home --shell /usr/sbin/nologin app
 COPY --from=build /opt/venv /opt/venv
 # The golden reference set ships with the image so the eval Job can run anywhere.
+# Only labels and expected outputs are in git; the drawings are generated here.
 COPY golden /app/golden
+RUN drawing-review golden --dir /app/golden
 WORKDIR /app
 USER 10001:10001
 EXPOSE 8080

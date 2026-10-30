@@ -67,5 +67,6 @@ jobs:
         run: |
           docker run -d --name drw -p 8080:8080 --read-only --tmpfs /tmp drawing-review:${{ github.sha }}
           for i in $(seq 1 30); do curl -fs localhost:8080/readyz && break; sleep 1; done
+          drawing-review golden --dir golden
           curl -fs -F file=@golden/images/syn-001.png localhost:8080/v1/analyze | python -m json.tool | head -20
           docker run --rm drawing-review:${{ github.sha }} id -u | grep -qx 10001
