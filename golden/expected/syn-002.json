@@ -1,0 +1,156 @@
+{
+  "document_id": "a64a3ae6c935ea0dda6d798d19377ad4a5db10f39a5e954d6dcdf9f311c94259",
+  "items": [
+    {
+      "region_id": "datum-0",
+      "kind": "datum",
+      "text": "DATUM A",
+      "fields": {
+        "datum_letter": "A"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "datum-1",
+      "kind": "datum",
+      "text": "DATUM B",
+      "fields": {
+        "datum_letter": "B"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-2",
+      "kind": "fcf",
+      "text": "POS|0.20|A|B",
+      "fields": {
+        "characteristic": "POS",
+        "tolerance": 0.2,
+        "datums": [
+          "A",
+          "B"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-3",
+      "kind": "fcf",
+      "text": "FLAT|0.02",
+      "fields": {
+        "characteristic": "FLAT",
+        "tolerance": 0.02
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-4",
+      "kind": "fcf",
+      "text": "PERP|0.10|A",
+      "fields": {
+        "characteristic": "PERP",
+        "tolerance": 0.1,
+        "datums": [
+          "A"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-5",
+      "kind": "fcf",
+      "text": "FLAT|0.20",
+      "fields": {
+        "characteristic": "FLAT",
+        "tolerance": 0.2
+      },
+      "findings": []
+    },
+    {
+      "region_id": "dimension-6",
+      "kind": "dimension",
+      "text": "13.35 -0.10/+0.10",
+      "fields": {
+        "nominal": 13.35,
+        "upper": -0.1,
+        "lower": 0.1
+      },
+      "findings": [
+        "R005"
+      ]
+    },
+    {
+      "region_id": "dimension-7",
+      "kind": "dimension",
+      "text": "36.23 +0.02/-0.02",
+      "fields": {
+        "nominal": 36.23,
+        "upper": 0.02,
+        "lower": -0.02
+      },
+      "findings": []
+    },
+    {
+      "region_id": "dimension-8",
+      "kind": "dimension",
+      "text": "104.22 +0.05/-0.05",
+      "fields": {
+        "nominal": 104.22,
+        "upper": 0.05,
+        "lower": -0.05
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-9",
+      "kind": "bom_row",
+      "text": "1 | PRT-336 | QTY 7",
+      "fields": {
+        "part_number": "PRT-336",
+        "item": 1,
+        "quantity": 7
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-10",
+      "kind": "bom_row",
+      "text": "2 | PRT-184 | QTY 3",
+      "fields": {
+        "part_number": "PRT-184",
+        "item": 2,
+        "quantity": 3
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-11",
+      "kind": "bom_row",
+      "text": "3 | PRT-254 | QTY 3",
+      "fields": {
+        "part_number": "PRT-254",
+        "item": 3,
+        "quantity": 3
+      },
+      "findings": []
+    },
+    {
+      "region_id": "title_block-12",
+      "kind": "title_block",
+      "text": "PN: SYN-4800",
+      "fields": {
+        "part_number": "SYN-4800"
+      },
+      "findings": []
+    }
+  ],
+  "document_findings": [
+    "R006"
+  ],
+  "summary": {
+    "regions": 13,
+    "errors": 2,
+    "warnings": 0,
+    "pending_review": 13
+  }
+}

@@ -1,0 +1,109 @@
+# vLLM serving a LLaVA model behind an OpenAI-compatible API, split over 2 GPUs.
+#
+# Status: example manifest. It validates against the Kubernetes schema, but I have
+# not run this exact file on a multi-GPU cluster. Treat the numbers below as
+# starting points to measure, not tuned values.
+#
+# Parallelism, in short:
+#   --tensor-parallel-size N    splits each layer's matrices over N GPUs of ONE pod.
+#                               Use it when the model does not fit (or is too slow)
+#                               on one GPU. Needs fast GPU-to-GPU links (NVLink).
+#   --pipeline-parallel-size M  splits the layers into M stages, possibly across
+#                               nodes. More latency per token, less memory per GPU.
+#   replicas: R                 data parallel: R independent copies behind the
+#                               Service. Adds throughput, not model capacity.
+# A 7B model fits on one 24 GB+ GPU, so for LLaVA-1.5-7B the usual choice is TP=1
+# and more replicas; TP=2 is shown here because that is the setting you need for
+# the 13B/34B variants or larger context windows.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-llava
+  namespace: drawing-review
+  labels: &labels
+    app.kubernetes.io/name: vllm-llava
+    app.kubernetes.io/component: inference
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate  # GPUs are scarce: free them before starting the new pod
+  selector:
+    matchLabels: *labels
+  template:
+    metadata:
+      labels: *labels
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: /metrics  # vLLM exports TTFT, queue time, KV-cache usage
+    spec:
+      automountServiceAccountToken: false
+      nodeSelector:
+        nvidia.com/gpu.present: "true"
+      tolerations:
+        - { key: nvidia.com/gpu, operator: Exists, effect: NoSchedule }
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: vllm
+          image: vllm/vllm-openai:v0.6.4
+          args:
+            - --model=llava-hf/llava-1.5-7b-hf
+            - --served-model-name=llava-hf/llava-1.5-7b-hf
+            - --tensor-parallel-size=2
+            - --max-model-len=4096
+            - --gpu-memory-utilization=0.90
+            - --max-num-seqs=32
+            - --disable-log-requests  # prompts would contain document text
+            - --port=8000
+          env:
+            - { name: HOME, value: /tmp }
+            - { name: HF_HOME, value: /models/hf }
+            - { name: HF_HUB_OFFLINE, value: "1" }  # weights are pre-staged on the PVC
+          ports:
+            - { name: http, containerPort: 8000 }
+          resources:
+            requests: { cpu: "4", memory: 32Gi, nvidia.com/gpu: 2 }
+            limits: { cpu: "8", memory: 48Gi, nvidia.com/gpu: 2 }
+          startupProbe:
+            httpGet: { path: /health, port: http }
+            periodSeconds: 10
+            failureThreshold: 60  # loading and compiling can take minutes
+          readinessProbe:
+            httpGet: { path: /health, port: http }
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet: { path: /health, port: http }
+            periodSeconds: 30
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+          volumeMounts:
+            - { name: weights, mountPath: /models, readOnly: true }
+            - { name: shm, mountPath: /dev/shm }  # NCCL needs shared memory for TP
+            - { name: tmp, mountPath: /tmp }
+      volumes:
+        - name: weights
+          persistentVolumeClaim: { claimName: model-weights, readOnly: true }
+        - name: shm
+          emptyDir: { medium: Memory, sizeLimit: 8Gi }
+        - name: tmp
+          emptyDir: { sizeLimit: 4Gi }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vllm-llava
+  namespace: drawing-review
+spec:
+  selector:
+    app.kubernetes.io/name: vllm-llava
+  ports:
+    - { name: http, port: 8000, targetPort: http }

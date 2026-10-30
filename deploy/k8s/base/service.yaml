@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: drawing-review
+  labels:
+    app.kubernetes.io/name: drawing-review
+spec:
+  type: ClusterIP  # exposed to users only through the gateway, never directly
+  selector:
+    app.kubernetes.io/name: drawing-review
+    app.kubernetes.io/component: api
+  ports:
+    - { name: http, port: 80, targetPort: http }

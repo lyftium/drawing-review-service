@@ -1,0 +1,139 @@
+{
+  "file": "syn-003.png",
+  "synthetic": true,
+  "regions": [
+    {
+      "id": "datum-0",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        120,
+        562,
+        217,
+        592
+      ],
+      "text": "DATUM A"
+    },
+    {
+      "id": "datum-1",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        280,
+        562,
+        376,
+        592
+      ],
+      "text": "DATUM B"
+    },
+    {
+      "id": "datum-2",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        440,
+        562,
+        538,
+        592
+      ],
+      "text": "DATUM C"
+    },
+    {
+      "id": "fcf-3",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        603,
+        120,
+        736,
+        154
+      ],
+      "text": "PERP|0.20|C|B"
+    },
+    {
+      "id": "fcf-4",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        603,
+        176,
+        718,
+        210
+      ],
+      "text": "PERP|0.25|B"
+    },
+    {
+      "id": "fcf-5",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        603,
+        232,
+        738,
+        266
+      ],
+      "text": "PROF|0.20|B|C"
+    },
+    {
+      "id": "dimension-6",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        140,
+        130,
+        327,
+        161
+      ],
+      "text": "DIA 59.86 +0.10/-0.10"
+    },
+    {
+      "id": "dimension-7",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        290,
+        90,
+        443,
+        121
+      ],
+      "text": "11.81 +0.02/-0.02"
+    },
+    {
+      "id": "bom_row-8",
+      "page": 0,
+      "kind": "bom_row",
+      "bbox": [
+        930,
+        640,
+        1100,
+        674
+      ],
+      "text": "1 | PRT-715 | QTY 6"
+    },
+    {
+      "id": "bom_row-9",
+      "page": 0,
+      "kind": "bom_row",
+      "bbox": [
+        930,
+        684,
+        1100,
+        718
+      ],
+      "text": "2 | PRT-204 | QTY 1"
+    },
+    {
+      "id": "title_block-10",
+      "page": 0,
+      "kind": "title_block",
+      "bbox": [
+        930,
+        890,
+        1115,
+        920
+      ],
+      "text": "PN: SYN-1003 REV: E"
+    }
+  ],
+  "defects": []
+}

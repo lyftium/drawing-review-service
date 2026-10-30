@@ -1,0 +1,200 @@
+{
+  "document_id": "3040db2fc0b913eb0d02cddd188fb5c67f952398f68306b7fb57e4d90c22bdd2",
+  "items": [
+    {
+      "region_id": "datum-0",
+      "kind": "datum",
+      "text": "DATUM A",
+      "fields": {
+        "datum_letter": "A"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "datum-1",
+      "kind": "datum",
+      "text": "DATUM B",
+      "fields": {
+        "datum_letter": "B"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "datum-2",
+      "kind": "datum",
+      "text": "DATUM C",
+      "fields": {
+        "datum_letter": "C"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-3",
+      "kind": "fcf",
+      "text": "POS|0.10|C",
+      "fields": {
+        "characteristic": "POS",
+        "tolerance": 0.1,
+        "datums": [
+          "C"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-4",
+      "kind": "fcf",
+      "text": "PERP|0.02|B",
+      "fields": {
+        "characteristic": "PERP",
+        "tolerance": 0.02,
+        "datums": [
+          "B"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-5",
+      "kind": "fcf",
+      "text": "FLAT|0.02",
+      "fields": {
+        "characteristic": "FLAT",
+        "tolerance": 0.02
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-6",
+      "kind": "fcf",
+      "text": "PERP|0.02|A|C",
+      "fields": {
+        "characteristic": "PERP",
+        "tolerance": 0.02,
+        "datums": [
+          "A",
+          "C"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-7",
+      "kind": "fcf",
+      "text": "PERP|0.25|C",
+      "fields": {
+        "characteristic": "PERP",
+        "tolerance": 0.25,
+        "datums": [
+          "C"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "dimension-8",
+      "kind": "dimension",
+      "text": "DIA 50.01 +0.02/-0.02",
+      "fields": {
+        "nominal": 50.01,
+        "upper": 0.02,
+        "lower": -0.02
+      },
+      "findings": []
+    },
+    {
+      "region_id": "dimension-9",
+      "kind": "dimension",
+      "text": "103.58 +0.05/-0.05",
+      "fields": {
+        "nominal": 103.58,
+        "upper": 0.05,
+        "lower": -0.05
+      },
+      "findings": []
+    },
+    {
+      "region_id": "dimension-10",
+      "kind": "dimension",
+      "text": "66.72 +0.05/-0.05",
+      "fields": {
+        "nominal": 66.72,
+        "upper": 0.05,
+        "lower": -0.05
+      },
+      "findings": []
+    },
+    {
+      "region_id": "dimension-11",
+      "kind": "dimension",
+      "text": "83.11 +0.01/-0.01",
+      "fields": {
+        "nominal": 83.11,
+        "upper": 0.01,
+        "lower": -0.01
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-12",
+      "kind": "bom_row",
+      "text": "1 | PRT-481 | QTY 4",
+      "fields": {
+        "part_number": "PRT-481",
+        "item": 1,
+        "quantity": 4
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-13",
+      "kind": "bom_row",
+      "text": "2 | PRT-660 | QTY 2",
+      "fields": {
+        "part_number": "PRT-660",
+        "item": 2,
+        "quantity": 2
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-14",
+      "kind": "bom_row",
+      "text": "3 | PRT-677 | QTY 2",
+      "fields": {
+        "part_number": "PRT-677",
+        "item": 3,
+        "quantity": 2
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-15",
+      "kind": "bom_row",
+      "text": "4 | PRT-733 | QTY 1",
+      "fields": {
+        "part_number": "PRT-733",
+        "item": 4,
+        "quantity": 1
+      },
+      "findings": []
+    },
+    {
+      "region_id": "title_block-16",
+      "kind": "title_block",
+      "text": "PN: SYN-4374 REV: D",
+      "fields": {
+        "part_number": "SYN-4374",
+        "revision": "D"
+      },
+      "findings": []
+    }
+  ],
+  "document_findings": [],
+  "summary": {
+    "regions": 17,
+    "errors": 0,
+    "warnings": 0,
+    "pending_review": 17
+  }
+}

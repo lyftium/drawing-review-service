@@ -1,0 +1,154 @@
+{
+  "document_id": "0ea970c3e73fc549f961b2bd41e0e080d75a034ac16df4e0312229fe93970f11",
+  "items": [
+    {
+      "region_id": "datum-0",
+      "kind": "datum",
+      "text": "DATUM A",
+      "fields": {
+        "datum_letter": "A"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "datum-1",
+      "kind": "datum",
+      "text": "DATUM B",
+      "fields": {
+        "datum_letter": "B"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "datum-2",
+      "kind": "datum",
+      "text": "DATUM C",
+      "fields": {
+        "datum_letter": "C"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-3",
+      "kind": "fcf",
+      "text": "FLAT|0.20",
+      "fields": {
+        "characteristic": "FLAT",
+        "tolerance": 0.2
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-4",
+      "kind": "fcf",
+      "text": "FLAT|0.02",
+      "fields": {
+        "characteristic": "FLAT",
+        "tolerance": 0.02
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-5",
+      "kind": "fcf",
+      "text": "PERP|0.05|A",
+      "fields": {
+        "characteristic": "PERP",
+        "tolerance": 0.05,
+        "datums": [
+          "A"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-6",
+      "kind": "fcf",
+      "text": "PERP|0.25|C|A",
+      "fields": {
+        "characteristic": "PERP",
+        "tolerance": 0.25,
+        "datums": [
+          "C",
+          "A"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-7",
+      "kind": "fcf",
+      "text": "PROF|0.25|C|B",
+      "fields": {
+        "characteristic": "PROF",
+        "tolerance": 0.25,
+        "datums": [
+          "C",
+          "B"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "dimension-8",
+      "kind": "dimension",
+      "text": "DIA 67.64 +0.02/-0.02",
+      "fields": {
+        "nominal": 67.64,
+        "upper": 0.02,
+        "lower": -0.02
+      },
+      "findings": []
+    },
+    {
+      "region_id": "dimension-9",
+      "kind": "dimension",
+      "text": "96.73 +0.01/-0.01",
+      "fields": {
+        "nominal": 96.73,
+        "upper": 0.01,
+        "lower": -0.01
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-10",
+      "kind": "bom_row",
+      "text": "1 | PRT-992 | QTY 7",
+      "fields": {
+        "part_number": "PRT-992",
+        "item": 1,
+        "quantity": 7
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-11",
+      "kind": "bom_row",
+      "text": "2 | PRT-945 | QTY 4",
+      "fields": {
+        "part_number": "PRT-945",
+        "item": 2,
+        "quantity": 4
+      },
+      "findings": []
+    },
+    {
+      "region_id": "title_block-12",
+      "kind": "title_block",
+      "text": "PN: SYN-4457 REV: A",
+      "fields": {
+        "part_number": "SYN-4457",
+        "revision": "A"
+      },
+      "findings": []
+    }
+  ],
+  "document_findings": [],
+  "summary": {
+    "regions": 13,
+    "errors": 0,
+    "warnings": 0,
+    "pending_review": 13
+  }
+}

@@ -1,0 +1,70 @@
+# Exact, fully resolved versions used by the image and CI.
+# Regenerate: uv pip compile pyproject.toml -o requirements.lock --python-version 3.11
+# then re-run the golden regression suite before committing.
+annotated-types==0.8.0
+    # via pydantic
+anyio==4.15.1
+    # via
+    #   httpx
+    #   starlette
+    #   watchfiles
+certifi==2026.10.23
+    # via
+    #   httpcore
+    #   httpx
+click==8.5.0
+    # via uvicorn
+fastapi==0.115.6
+    # via drawing-review (pyproject.toml)
+h11==0.16.0
+    # via
+    #   httpcore
+    #   uvicorn
+httpcore==1.0.9
+    # via httpx
+httptools==0.9.0
+    # via uvicorn
+httpx==0.28.1
+    # via drawing-review (pyproject.toml)
+idna==3.20
+    # via
+    #   anyio
+    #   httpx
+numpy==2.2.1
+    # via drawing-review (pyproject.toml)
+pillow==11.0.0
+    # via drawing-review (pyproject.toml)
+prometheus-client==0.21.1
+    # via drawing-review (pyproject.toml)
+pydantic==2.10.4
+    # via
+    #   drawing-review (pyproject.toml)
+    #   fastapi
+pydantic-core==2.27.2
+    # via pydantic
+pypdfium2==4.30.1
+    # via drawing-review (pyproject.toml)
+python-dotenv==1.2.4
+    # via uvicorn
+python-multipart==0.0.20
+    # via drawing-review (pyproject.toml)
+pyyaml==6.0.2
+    # via
+    #   drawing-review (pyproject.toml)
+    #   uvicorn
+starlette==0.41.3
+    # via fastapi
+typing-extensions==4.16.0
+    # via
+    #   anyio
+    #   fastapi
+    #   pydantic
+    #   pydantic-core
+uvicorn==0.32.1
+    # via drawing-review (pyproject.toml)
+uvloop==0.23.0
+    # via uvicorn
+watchfiles==1.3.0
+    # via uvicorn
+websockets==17.3
+    # via uvicorn

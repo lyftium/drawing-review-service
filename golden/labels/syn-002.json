@@ -1,0 +1,178 @@
+{
+  "file": "syn-002.png",
+  "synthetic": true,
+  "regions": [
+    {
+      "id": "datum-0",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        120,
+        536,
+        217,
+        566
+      ],
+      "text": "DATUM A"
+    },
+    {
+      "id": "datum-1",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        280,
+        536,
+        376,
+        566
+      ],
+      "text": "DATUM B"
+    },
+    {
+      "id": "fcf-2",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        714,
+        120,
+        837,
+        154
+      ],
+      "text": "POS|0.20|A|B"
+    },
+    {
+      "id": "fcf-3",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        714,
+        176,
+        814,
+        210
+      ],
+      "text": "FLAT|0.02"
+    },
+    {
+      "id": "fcf-4",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        714,
+        232,
+        830,
+        266
+      ],
+      "text": "PERP|0.10|A"
+    },
+    {
+      "id": "fcf-5",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        714,
+        288,
+        814,
+        322
+      ],
+      "text": "FLAT|0.20"
+    },
+    {
+      "id": "dimension-6",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        140,
+        130,
+        293,
+        161
+      ],
+      "text": "13.35 -0.10/+0.10"
+    },
+    {
+      "id": "dimension-7",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        290,
+        90,
+        443,
+        121
+      ],
+      "text": "36.23 +0.02/-0.02"
+    },
+    {
+      "id": "dimension-8",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        440,
+        130,
+        603,
+        161
+      ],
+      "text": "104.22 +0.05/-0.05"
+    },
+    {
+      "id": "bom_row-9",
+      "page": 0,
+      "kind": "bom_row",
+      "bbox": [
+        930,
+        640,
+        1100,
+        674
+      ],
+      "text": "1 | PRT-336 | QTY 7"
+    },
+    {
+      "id": "bom_row-10",
+      "page": 0,
+      "kind": "bom_row",
+      "bbox": [
+        930,
+        684,
+        1100,
+        718
+      ],
+      "text": "2 | PRT-184 | QTY 3"
+    },
+    {
+      "id": "bom_row-11",
+      "page": 0,
+      "kind": "bom_row",
+      "bbox": [
+        930,
+        728,
+        1100,
+        762
+      ],
+      "text": "3 | PRT-254 | QTY 3"
+    },
+    {
+      "id": "title_block-12",
+      "page": 0,
+      "kind": "title_block",
+      "bbox": [
+        930,
+        890,
+        1059,
+        920
+      ],
+      "text": "PN: SYN-4800"
+    }
+  ],
+  "defects": [
+    {
+      "defect": "inverted_band",
+      "rule_id": "R005",
+      "region_ids": [
+        "dimension-6"
+      ]
+    },
+    {
+      "defect": "missing_revision",
+      "rule_id": "R006",
+      "region_ids": [
+        "title_block-12"
+      ]
+    }
+  ]
+}

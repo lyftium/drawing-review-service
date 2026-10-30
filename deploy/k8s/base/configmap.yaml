@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: drawing-review-config
+data:
+  # Backends: stub | yolo, stub | tesseract, rules | llava
+  DRW_DETECTOR: stub
+  DRW_OCR: stub
+  DRW_INTERPRETER: rules
+  DRW_LLAVA_BASE_URL: http://vllm-llava:8000/v1
+  DRW_LLAVA_MODEL: llava-hf/llava-1.5-7b-hf
+  DRW_YOLO_WEIGHTS: /models/yolo/best.pt
+  DRW_MAX_UPLOAD_MB: "20"
+  DRW_MAX_PAGES: "20"
+  DRW_TARGET_LONG_SIDE: "2000"

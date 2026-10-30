@@ -1,0 +1,71 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install pinned dependencies
+        run: |
+          pip install -r requirements.lock -r requirements-dev.txt
+          pip install --no-deps -e .
+      - name: Lint
+        run: ruff check . && ruff format --check .
+      - name: Unit, integration and golden regression tests
+        run: pytest
+      - name: Evaluation gates on the reference set
+        run: |
+          mkdir -p reports
+          drawing-review eval --data golden --report reports/eval.md --runs-dir reports/runs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-report
+          path: reports/
+
+  manifests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install kubeconform
+        run: |
+          curl -sSL https://github.com/yannh/kubeconform/releases/download/v0.6.7/kubeconform-linux-amd64.tar.gz | tar xz
+          sudo mv kubeconform /usr/local/bin/
+      - name: Validate rendered manifests
+        run: |
+          kubectl kustomize deploy/k8s/overlays/kind | kubeconform -strict -summary -
+          kubectl kustomize deploy/k8s/overlays/gpu | kubeconform -strict -summary -
+          kubeconform -strict -summary deploy/k8s/vllm/
+
+  image:
+    runs-on: ubuntu-latest
+    needs: lint-test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          tags: drawing-review:${{ github.sha }}
+          build-args: GIT_SHA=${{ github.sha }}
+      - name: Smoke test the image
+        run: |
+          docker run -d --name drw -p 8080:8080 --read-only --tmpfs /tmp drawing-review:${{ github.sha }}
+          for i in $(seq 1 30); do curl -fs localhost:8080/readyz && break; sleep 1; done
+          curl -fs -F file=@golden/images/syn-001.png localhost:8080/v1/analyze | python -m json.tool | head -20
+          docker run --rm drawing-review:${{ github.sha }} id -u | grep -qx 10001

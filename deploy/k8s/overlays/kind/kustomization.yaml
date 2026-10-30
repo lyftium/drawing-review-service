@@ -1,0 +1,20 @@
+# Local cluster: one replica, the locally built image, stub backends.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+images:
+  - name: ghcr.io/lyftium/drawing-review-service
+    newName: drawing-review
+    newTag: dev
+patches:
+  - target: { kind: Deployment, name: drawing-review }
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target: { kind: PersistentVolumeClaim, name: model-weights }
+    patch: |-
+      - op: replace
+        path: /spec/resources/requests/storage
+        value: 1Gi

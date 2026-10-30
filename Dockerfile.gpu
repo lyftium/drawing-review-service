@@ -1,0 +1,15 @@
+# GPU variant with the YOLO extra. Not built in CI (large image, needs CUDA).
+# Status: provided as a starting point; the CPU image is the one that is tested.
+FROM pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime
+ARG GIT_SHA=unknown
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 DRW_GIT_SHA=${GIT_SHA} HOME=/tmp
+WORKDIR /src
+COPY requirements.lock pyproject.toml README.md ./
+COPY src ./src
+RUN pip install --no-cache-dir -r requirements.lock && pip install --no-cache-dir ".[yolo]"
+COPY golden /app/golden
+RUN useradd --uid 10001 --no-create-home --shell /usr/sbin/nologin app
+USER 10001
+WORKDIR /app
+EXPOSE 8080
+CMD ["uvicorn", "--factory", "drawing_review.api:app_factory", "--host", "0.0.0.0", "--port", "8080", "--no-access-log"]

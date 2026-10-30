@@ -1,0 +1,139 @@
+{
+  "document_id": "d72d05bbacfdea1c20593abdaac8d1e719496fe976f04453a8fa207da3f6f531",
+  "items": [
+    {
+      "region_id": "datum-0",
+      "kind": "datum",
+      "text": "DATUM A",
+      "fields": {
+        "datum_letter": "A"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "datum-1",
+      "kind": "datum",
+      "text": "DATUM B",
+      "fields": {
+        "datum_letter": "B"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-2",
+      "kind": "fcf",
+      "text": "PROF|0.20|A",
+      "fields": {
+        "characteristic": "PROF",
+        "tolerance": 0.2,
+        "datums": [
+          "A"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-3",
+      "kind": "fcf",
+      "text": "PARA|0.20|A|B",
+      "fields": {
+        "characteristic": "PARA",
+        "tolerance": 0.2,
+        "datums": [
+          "A",
+          "B"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-4",
+      "kind": "fcf",
+      "text": "PROF|0.25|B",
+      "fields": {
+        "characteristic": "PROF",
+        "tolerance": 0.25,
+        "datums": [
+          "B"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-5",
+      "kind": "fcf",
+      "text": "PERP|0.00|A",
+      "fields": {
+        "characteristic": "PERP",
+        "tolerance": 0.0,
+        "datums": [
+          "A"
+        ]
+      },
+      "findings": [
+        "R004"
+      ]
+    },
+    {
+      "region_id": "dimension-6",
+      "kind": "dimension",
+      "text": "20.42 +0.01/-0.01",
+      "fields": {
+        "nominal": 20.42,
+        "upper": 0.01,
+        "lower": -0.01
+      },
+      "findings": []
+    },
+    {
+      "region_id": "dimension-7",
+      "kind": "dimension",
+      "text": "41.81 +0.10/-0.10",
+      "fields": {
+        "nominal": 41.81,
+        "upper": 0.1,
+        "lower": -0.1
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-8",
+      "kind": "bom_row",
+      "text": "1 | PRT-354 | QTY 1",
+      "fields": {
+        "part_number": "PRT-354",
+        "item": 1,
+        "quantity": 1
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-9",
+      "kind": "bom_row",
+      "text": "2 | PRT-383 | QTY 4",
+      "fields": {
+        "part_number": "PRT-383",
+        "item": 2,
+        "quantity": 4
+      },
+      "findings": []
+    },
+    {
+      "region_id": "title_block-10",
+      "kind": "title_block",
+      "text": "PN: SYN-1691 REV: A",
+      "fields": {
+        "part_number": "SYN-1691",
+        "revision": "A"
+      },
+      "findings": []
+    }
+  ],
+  "document_findings": [],
+  "summary": {
+    "regions": 11,
+    "errors": 1,
+    "warnings": 0,
+    "pending_review": 11
+  }
+}

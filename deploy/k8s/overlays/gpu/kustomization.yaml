@@ -1,0 +1,12 @@
+# GPU node: YOLO detector on the GPU, LLaVA interpretation through the vLLM service.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+patches:
+  - path: deployment-gpu.yaml
+  - path: job-eval-gpu.yaml
+  - target: { kind: ConfigMap, name: drawing-review-config }
+    patch: |-
+      - { op: replace, path: /data/DRW_DETECTOR, value: yolo }
+      - { op: replace, path: /data/DRW_INTERPRETER, value: llava }

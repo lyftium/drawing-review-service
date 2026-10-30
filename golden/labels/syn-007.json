@@ -1,0 +1,147 @@
+{
+  "file": "syn-007.png",
+  "synthetic": true,
+  "regions": [
+    {
+      "id": "datum-0",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        120,
+        564,
+        217,
+        594
+      ],
+      "text": "DATUM A"
+    },
+    {
+      "id": "datum-1",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        280,
+        564,
+        376,
+        594
+      ],
+      "text": "DATUM B"
+    },
+    {
+      "id": "fcf-2",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        674,
+        120,
+        792,
+        154
+      ],
+      "text": "PROF|0.20|A"
+    },
+    {
+      "id": "fcf-3",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        674,
+        176,
+        808,
+        210
+      ],
+      "text": "PARA|0.20|A|B"
+    },
+    {
+      "id": "fcf-4",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        674,
+        232,
+        791,
+        266
+      ],
+      "text": "PROF|0.25|B"
+    },
+    {
+      "id": "fcf-5",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        674,
+        288,
+        790,
+        322
+      ],
+      "text": "PERP|0.00|A"
+    },
+    {
+      "id": "dimension-6",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        140,
+        130,
+        293,
+        161
+      ],
+      "text": "20.42 +0.01/-0.01"
+    },
+    {
+      "id": "dimension-7",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        290,
+        90,
+        443,
+        121
+      ],
+      "text": "41.81 +0.10/-0.10"
+    },
+    {
+      "id": "bom_row-8",
+      "page": 0,
+      "kind": "bom_row",
+      "bbox": [
+        930,
+        640,
+        1100,
+        674
+      ],
+      "text": "1 | PRT-354 | QTY 1"
+    },
+    {
+      "id": "bom_row-9",
+      "page": 0,
+      "kind": "bom_row",
+      "bbox": [
+        930,
+        684,
+        1100,
+        718
+      ],
+      "text": "2 | PRT-383 | QTY 4"
+    },
+    {
+      "id": "title_block-10",
+      "page": 0,
+      "kind": "title_block",
+      "bbox": [
+        930,
+        890,
+        1116,
+        920
+      ],
+      "text": "PN: SYN-1691 REV: A"
+    }
+  ],
+  "defects": [
+    {
+      "defect": "zero_tolerance",
+      "rule_id": "R004",
+      "region_ids": [
+        "fcf-5"
+      ]
+    }
+  ]
+}

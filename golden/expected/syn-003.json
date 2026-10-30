@@ -1,0 +1,134 @@
+{
+  "document_id": "cdbfa6109d859531419cf9e2f934725e657e2e313c4b4516ec917e1546dbbd6d",
+  "items": [
+    {
+      "region_id": "datum-0",
+      "kind": "datum",
+      "text": "DATUM A",
+      "fields": {
+        "datum_letter": "A"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "datum-1",
+      "kind": "datum",
+      "text": "DATUM B",
+      "fields": {
+        "datum_letter": "B"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "datum-2",
+      "kind": "datum",
+      "text": "DATUM C",
+      "fields": {
+        "datum_letter": "C"
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-3",
+      "kind": "fcf",
+      "text": "PERP|0.20|C|B",
+      "fields": {
+        "characteristic": "PERP",
+        "tolerance": 0.2,
+        "datums": [
+          "C",
+          "B"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-4",
+      "kind": "fcf",
+      "text": "PERP|0.25|B",
+      "fields": {
+        "characteristic": "PERP",
+        "tolerance": 0.25,
+        "datums": [
+          "B"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "fcf-5",
+      "kind": "fcf",
+      "text": "PROF|0.20|B|C",
+      "fields": {
+        "characteristic": "PROF",
+        "tolerance": 0.2,
+        "datums": [
+          "B",
+          "C"
+        ]
+      },
+      "findings": []
+    },
+    {
+      "region_id": "dimension-6",
+      "kind": "dimension",
+      "text": "DIA 59.86 +0.10/-0.10",
+      "fields": {
+        "nominal": 59.86,
+        "upper": 0.1,
+        "lower": -0.1
+      },
+      "findings": []
+    },
+    {
+      "region_id": "dimension-7",
+      "kind": "dimension",
+      "text": "11.81 +0.02/-0.02",
+      "fields": {
+        "nominal": 11.81,
+        "upper": 0.02,
+        "lower": -0.02
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-8",
+      "kind": "bom_row",
+      "text": "1 | PRT-715 | QTY 6",
+      "fields": {
+        "part_number": "PRT-715",
+        "item": 1,
+        "quantity": 6
+      },
+      "findings": []
+    },
+    {
+      "region_id": "bom_row-9",
+      "kind": "bom_row",
+      "text": "2 | PRT-204 | QTY 1",
+      "fields": {
+        "part_number": "PRT-204",
+        "item": 2,
+        "quantity": 1
+      },
+      "findings": []
+    },
+    {
+      "region_id": "title_block-10",
+      "kind": "title_block",
+      "text": "PN: SYN-1003 REV: E",
+      "fields": {
+        "part_number": "SYN-1003",
+        "revision": "E"
+      },
+      "findings": []
+    }
+  ],
+  "document_findings": [],
+  "summary": {
+    "regions": 11,
+    "errors": 0,
+    "warnings": 0,
+    "pending_review": 11
+  }
+}

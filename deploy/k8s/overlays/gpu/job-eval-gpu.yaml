@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: drawing-review-eval
+spec:
+  template:
+    spec:
+      nodeSelector:
+        nvidia.com/gpu.present: "true"
+      tolerations:
+        - { key: nvidia.com/gpu, operator: Exists, effect: NoSchedule }
+      containers:
+        - name: eval
+          image: ghcr.io/lyftium/drawing-review-service:0.1.0-gpu
+          env:
+            - { name: DRW_YOLO_DEVICE, value: "cuda:0" }
+          resources:
+            requests: { cpu: "1", memory: 4Gi, nvidia.com/gpu: 1 }
+            limits: { cpu: "4", memory: 8Gi, nvidia.com/gpu: 1 }
+          volumeMounts:
+            - { name: weights, mountPath: /models, readOnly: true }
+      volumes:
+        - name: weights
+          persistentVolumeClaim: { claimName: model-weights, readOnly: true }

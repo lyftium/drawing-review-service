@@ -1,0 +1,11 @@
+# Model weights live on a volume, not in the image: images stay small, and a model
+# version can be rolled forward or back without rebuilding the service.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-weights
+spec:
+  accessModes: ["ReadWriteOnce"]  # ReadOnlyMany where the storage class supports it
+  resources:
+    requests:
+      storage: 20Gi

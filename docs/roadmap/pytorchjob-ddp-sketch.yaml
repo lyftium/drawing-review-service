@@ -1,0 +1,50 @@
+# ROADMAP / LEARNING NOTE, not something I have run.
+#
+# How I would describe a multi-GPU fine-tuning run of the YOLO detector (or a LoRA
+# run of the VLM) with the Kubeflow Training Operator, which is also what OpenShift
+# AI uses for distributed training. The operator sets MASTER_ADDR, WORLD_SIZE and
+# RANK for each pod; torchrun reads them.
+#
+# DDP: every GPU holds a full copy of the model and a slice of each batch; gradients
+#      are all-reduced after backward. Simple, fast when the model fits on one GPU.
+# FSDP: parameters, gradients and optimizer state are sharded over the GPUs and
+#      gathered layer by layer. Use it when the model does not fit with DDP.
+apiVersion: kubeflow.org/v1
+kind: PyTorchJob
+metadata:
+  name: detector-finetune
+  namespace: drawing-review
+spec:
+  pytorchReplicaSpecs:
+    Master:
+      replicas: 1
+      restartPolicy: OnFailure
+      template:
+        spec:
+          containers:
+            - name: pytorch
+              image: ghcr.io/lyftium/drawing-review-train:dev
+              command: ["torchrun", "--nproc-per-node=2", "train.py", "--strategy=ddp"]
+              resources:
+                limits: { nvidia.com/gpu: 2, memory: 64Gi, cpu: "16" }
+              volumeMounts:
+                - { name: shm, mountPath: /dev/shm }
+          volumes:
+            - name: shm
+              emptyDir: { medium: Memory, sizeLimit: 16Gi }
+    Worker:
+      replicas: 1
+      restartPolicy: OnFailure
+      template:
+        spec:
+          containers:
+            - name: pytorch
+              image: ghcr.io/lyftium/drawing-review-train:dev
+              command: ["torchrun", "--nproc-per-node=2", "train.py", "--strategy=ddp"]
+              resources:
+                limits: { nvidia.com/gpu: 2, memory: 64Gi, cpu: "16" }
+              volumeMounts:
+                - { name: shm, mountPath: /dev/shm }
+          volumes:
+            - name: shm
+              emptyDir: { medium: Memory, sizeLimit: 16Gi }

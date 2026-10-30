@@ -1,0 +1,46 @@
+# Batch evaluation on the reference set. Run it before promoting a new image or model:
+#   kubectl -n drawing-review create job eval-$(date +%s) --from=job/drawing-review-eval
+# Exit code 1 means a release gate failed.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: drawing-review-eval
+spec:
+  backoffLimit: 0  # a failed gate is a result, not something to retry
+  ttlSecondsAfterFinished: 86400
+  activeDeadlineSeconds: 1800
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: drawing-review
+        app.kubernetes.io/component: eval
+    spec:
+      restartPolicy: Never
+      serviceAccountName: drawing-review
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: eval
+          image: ghcr.io/lyftium/drawing-review-service:0.1.0
+          command: ["drawing-review", "eval", "--data", "/app/golden", "--runs-dir", "/runs"]
+          envFrom:
+            - configMapRef: { name: drawing-review-config }
+          resources:
+            requests: { cpu: 500m, memory: 512Mi }
+            limits: { cpu: "2", memory: 2Gi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+          volumeMounts:
+            - { name: runs, mountPath: /runs }
+            - { name: tmp, mountPath: /tmp }
+      volumes:
+        - name: runs
+          emptyDir: {}  # swap for a PVC or object storage to keep run records
+        - name: tmp
+          emptyDir: {}

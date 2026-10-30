@@ -1,0 +1,179 @@
+{
+  "file": "syn-008.png",
+  "synthetic": true,
+  "regions": [
+    {
+      "id": "datum-0",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        120,
+        597,
+        217,
+        627
+      ],
+      "text": "DATUM A"
+    },
+    {
+      "id": "datum-1",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        280,
+        597,
+        376,
+        627
+      ],
+      "text": "DATUM B"
+    },
+    {
+      "id": "datum-2",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        440,
+        597,
+        538,
+        627
+      ],
+      "text": "DATUM C"
+    },
+    {
+      "id": "fcf-3",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        607,
+        120,
+        726,
+        154
+      ],
+      "text": "PROF|0.25|C"
+    },
+    {
+      "id": "fcf-4",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        607,
+        176,
+        743,
+        210
+      ],
+      "text": "PARA|0.20|C|A"
+    },
+    {
+      "id": "fcf-5",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        607,
+        232,
+        724,
+        266
+      ],
+      "text": "PROF|0.10|B"
+    },
+    {
+      "id": "fcf-6",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        607,
+        288,
+        722,
+        322
+      ],
+      "text": "PERP|0.20|B"
+    },
+    {
+      "id": "fcf-7",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        607,
+        344,
+        707,
+        378
+      ],
+      "text": "FLAT|0.10"
+    },
+    {
+      "id": "dimension-8",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        140,
+        130,
+        327,
+        161
+      ],
+      "text": "DIA 81.85 -0.10/+0.10"
+    },
+    {
+      "id": "dimension-9",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        290,
+        90,
+        443,
+        121
+      ],
+      "text": "81.66 +0.01/-0.01"
+    },
+    {
+      "id": "bom_row-10",
+      "page": 0,
+      "kind": "bom_row",
+      "bbox": [
+        930,
+        640,
+        1100,
+        674
+      ],
+      "text": "1 | PRT-246 | QTY 6"
+    },
+    {
+      "id": "bom_row-11",
+      "page": 0,
+      "kind": "bom_row",
+      "bbox": [
+        930,
+        684,
+        1100,
+        718
+      ],
+      "text": "1 | PRT-240 | QTY 5"
+    },
+    {
+      "id": "title_block-12",
+      "page": 0,
+      "kind": "title_block",
+      "bbox": [
+        930,
+        890,
+        1115,
+        920
+      ],
+      "text": "PN: SYN-8663 REV: B"
+    }
+  ],
+  "defects": [
+    {
+      "defect": "duplicate_item",
+      "rule_id": "R008",
+      "region_ids": [
+        "bom_row-10",
+        "bom_row-11"
+      ]
+    },
+    {
+      "defect": "inverted_band",
+      "rule_id": "R005",
+      "region_ids": [
+        "dimension-8"
+      ]
+    }
+  ]
+}

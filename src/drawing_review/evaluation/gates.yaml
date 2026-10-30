@@ -1,0 +1,12 @@
+# Release gates. A new model, backend or rule change ships only if every gate passes
+# on the reference set. Thresholds are a starting point to agree with the users of
+# the review, not a claim about any model.
+gates:
+  - metric: extraction.detection.recall
+    min: 0.90
+  - metric: extraction.ocr_cer
+    max: 0.05
+  - metric: business.defects.recall
+    min: 0.95
+  - metric: business.clean_false_alarm_rate
+    max: 0.10

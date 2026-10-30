@@ -1,0 +1,191 @@
+{
+  "file": "syn-001.png",
+  "synthetic": true,
+  "regions": [
+    {
+      "id": "datum-0",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        120,
+        559,
+        217,
+        589
+      ],
+      "text": "DATUM A"
+    },
+    {
+      "id": "datum-1",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        280,
+        559,
+        376,
+        589
+      ],
+      "text": "DATUM B"
+    },
+    {
+      "id": "datum-2",
+      "page": 0,
+      "kind": "datum",
+      "bbox": [
+        440,
+        559,
+        538,
+        589
+      ],
+      "text": "DATUM C"
+    },
+    {
+      "id": "fcf-3",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        680,
+        120,
+        797,
+        154
+      ],
+      "text": "PERP|0.05|C"
+    },
+    {
+      "id": "fcf-4",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        680,
+        176,
+        815,
+        210
+      ],
+      "text": "PARA|0.25|B|C"
+    },
+    {
+      "id": "fcf-5",
+      "page": 0,
+      "kind": "fcf",
+      "bbox": [
+        680,
+        232,
+        798,
+        266
+      ],
+      "text": "PARA|0.25|A"
+    },
+    {
+      "id": "dimension-6",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        140,
+        130,
+        327,
+        161
+      ],
+      "text": "DIA 52.50 +0.05/-0.05"
+    },
+    {
+      "id": "dimension-7",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        290,
+        90,
+        443,
+        121
+      ],
+      "text": "60.72 +0.01/-0.01"
+    },
+    {
+      "id": "dimension-8",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        440,
+        130,
+        627,
+        161
+      ],
+      "text": "DIA 13.00 +0.05/-0.05"
+    },
+    {
+      "id": "dimension-9",
+      "page": 0,
+      "kind": "dimension",
+      "bbox": [
+        590,
+        90,
+        743,
+        121
+      ],
+      "text": "44.62 +0.10/-0.10"
+    },
+    {
+      "id": "bom_row-10",
+      "page": 0,
+      "kind": "bom_row",
+      "bbox": [
+        930,
+        640,
+        1100,
+        674
+      ],
+      "text": "1 | PRT-960 | QTY 0"
+    },
+    {
+      "id": "bom_row-11",
+      "page": 0,
+      "kind": "bom_row",
+      "bbox": [
+        930,
+        684,
+        1100,
+        718
+      ],
+      "text": "2 | PRT-376 | QTY 2"
+    },
+    {
+      "id": "bom_row-12",
+      "page": 0,
+      "kind": "bom_row",
+      "bbox": [
+        930,
+        728,
+        1100,
+        762
+      ],
+      "text": "1 | PRT-813 | QTY 8"
+    },
+    {
+      "id": "title_block-13",
+      "page": 0,
+      "kind": "title_block",
+      "bbox": [
+        930,
+        890,
+        1116,
+        920
+      ],
+      "text": "PN: SYN-2064 REV: A"
+    }
+  ],
+  "defects": [
+    {
+      "defect": "zero_qty",
+      "rule_id": "R007",
+      "region_ids": [
+        "bom_row-10"
+      ]
+    },
+    {
+      "defect": "duplicate_item",
+      "rule_id": "R008",
+      "region_ids": [
+        "bom_row-10",
+        "bom_row-12"
+      ]
+    }
+  ]
+}
