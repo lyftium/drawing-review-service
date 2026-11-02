@@ -1,7 +1,5 @@
 # drawing-review-service
 
-> **Keywords for recruiters:** Python · FastAPI microservice · Docker · Kubernetes (GPU overlay) · vLLM inference · Prometheus · MLOps lineage & eval gates · engineering drawings / GD&T · AI gateway design · OpenShift Route/SCC · AI Act mapping · PyTorchJob DDP
-
 A reference implementation of what it takes to turn a technical-drawing analysis
 prototype into a **industrialised AI component**: deployable, measurable, secure and
 maintainable — the same loop as packaging a model team's prototype onto a shared AI compute cluster.
