@@ -1,0 +1,22 @@
+# OpenShift Route: TLS edge termination in front of the ClusterIP Service.
+# On plain Kubernetes use an Ingress instead; this file is OpenShift-specific.
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: drawing-review
+  labels:
+    app.kubernetes.io/name: drawing-review
+  annotations:
+    # Keep uploads bounded; align with DRW_MAX_UPLOAD_MB on the service.
+    haproxy.router.openshift.io/timeout: 120s
+spec:
+  to:
+    kind: Service
+    name: drawing-review
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
