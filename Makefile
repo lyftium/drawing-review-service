@@ -33,6 +33,7 @@ validate:
 	kubectl kustomize deploy/k8s/overlays/kind | kubeconform -strict -summary -
 	kubectl kustomize deploy/k8s/overlays/gpu | kubeconform -strict -summary -
 	kubeconform -strict -summary deploy/k8s/vllm/
+	kubectl kustomize deploy/openshift | kubeconform -strict -ignore-missing-schemas -summary -
 
 bench:
 	python bench/load_test.py service --url http://localhost:8080 -n 200 -c 8
