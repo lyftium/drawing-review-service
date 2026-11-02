@@ -1,6 +1,6 @@
 # drawing-review-service
 
-> **Keywords for recruiters:** Python · FastAPI microservice · Docker · Kubernetes (GPU overlay) · vLLM inference · Prometheus · MLOps lineage & eval gates · engineering drawings / GD&T · AI gateway design · path toward OpenShift
+> **Keywords for recruiters:** Python · FastAPI microservice · Docker · Kubernetes (GPU overlay) · vLLM inference · Prometheus · MLOps lineage & eval gates · engineering drawings / GD&T · AI gateway design · OpenShift Route/SCC · AI Act mapping · PyTorchJob DDP
 
 A reference implementation of what it takes to turn a technical-drawing analysis
 prototype into a **industrialised AI component**: deployable, measurable, secure and
@@ -113,6 +113,8 @@ DRW_STUB_CHAR_ERROR_RATE=0.03 DRW_STUB_DROP_RATE=0.05 DRW_STUB_JITTER_PX=4 \
 | ✅ | Load benchmark for the service and for an OpenAI-compatible LLM endpoint (TTFT, p95) | `bench/load_test.py` |
 | ✅ | Logging policy: hashes, sizes and timings only, never file names or content (tested) | `api.py`, `tests/test_api.py` |
 | ✅ | Runbook for "the model doesn't start" | `docs/runbook.md` |
+| ✅ | OpenShift overlay: Route, SCC-friendly patch, PyTorchJob YAML | `deploy/openshift/`, `docs/openshift.md` |
+| ✅ | AI Act–style engineering checklist (not a legal claim) | `docs/ai-act-mapping.md` |
 | 📝 | Gateway (auth, quotas, routing, logging policy) | design only: `docs/gateway.md` |
 | 📝 | Split into services | proposal: `docs/architecture.md` |
 
@@ -162,27 +164,30 @@ I want to be precise about what is here.
 **Implemented and tested in this repo**: the pipeline, the API, the stub backends,
 the rules engine, the evaluation harness and gates, lineage, metrics, the benchmark
 script, the Docker image, and Kubernetes manifests that validate against the schema
-(`kubeconform -strict`). The CI pipeline (`ci/github-actions-ci.yml`, see
-`ci/README.md` to enable it) runs lint, tests, the evaluation gates, manifest
-validation and an image build with a smoke test.
+(`kubeconform -strict`). CI is enabled (`.github/workflows/ci.yml`): lint, tests,
+evaluation gates, manifest validation (including the OpenShift overlay), and an
+image build with a smoke test.
+
+**OpenShift overlay (implemented)**: `deploy/openshift/` adds a TLS Route, an
+SCC-aware Deployment patch (no fixed UID), and a `PyTorchJob` YAML for the Training
+Operator CRD. Full guide: [`docs/openshift.md`](docs/openshift.md). AI Act–style
+engineering mapping (checklist, not a legal claim):
+[`docs/ai-act-mapping.md`](docs/ai-act-mapping.md).
 
 **Written but not exercised here**: the YOLO, Tesseract and LLaVA/vLLM backends (no
 weights in a public repo), `Dockerfile.gpu`, the GPU overlay and the vLLM manifest.
 They are written against the documented APIs, but I have not run these exact files
 on a multi-GPU cluster.
 
-**Roadmap / learning notes, not experience I am claiming:**
+**Distributed training:** DDP is implemented and run with `torchrun` in
+[lora-finetune-recipe](https://github.com/lyftium/lora-finetune-recipe) (CPU gloo proof;
+CUDA nccl). This repo carries the cluster submit YAML (`deploy/openshift/pytorchjob-ddp.yaml`).
 
-- Multi-GPU serving at scale: choosing tensor vs pipeline parallel vs replicas from
-  measured TTFT, p95 and GPU memory, not from defaults.
-- Distributed training with a `PyTorchJob` (DDP first, FSDP when the model does not
-  fit): see the sketch in `docs/roadmap/pytorchjob-ddp-sketch.yaml`.
-- LoRA / QLoRA fine-tuning of the VLM on reviewed cases, compared against the
-  current model on an independent test set before anything is promoted.
-- OpenShift deployment: the manifests already avoid a fixed UID, a writable root
-  filesystem and privileged settings, which is what the restricted SCC expects;
-  Routes, OpenShift AI model serving and its metrics are the next step to learn.
-- The gateway and the service split described in `docs/`.
+**Still deepening on a live shared GPU cluster:**
+
+- Live submit of the `PyTorchJob` against OpenShift AI Training Operator.
+- Serving tuning from measured TTFT / p95 / GPU memory (tensor vs pipeline vs replicas).
+- Gateway deployed in front of the service (design in `docs/gateway.md`).
 
 ## License
 
