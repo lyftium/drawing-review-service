@@ -1,0 +1,98 @@
+# Distributed LoRA / detector fine-tune via Kubeflow Training Operator
+# (same operator OpenShift AI uses). Submit after the operator is installed:
+#   oc apply -f deploy/openshift/pytorchjob-ddp.yaml
+#
+# DDP: each process gets a full model copy + a data shard; gradients all-reduce.
+# Swap to FSDP when the model no longer fits on one GPU with DDP.
+apiVersion: kubeflow.org/v1
+kind: PyTorchJob
+metadata:
+  name: lora-ddp-finetune
+  namespace: drawing-review
+  labels:
+    app.kubernetes.io/name: drawing-review
+    app.kubernetes.io/component: training
+spec:
+  pytorchReplicaSpecs:
+    Master:
+      replicas: 1
+      restartPolicy: OnFailure
+      template:
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pytorch
+              image: ghcr.io/lyftium/lora-finetune-recipe:0.1.0
+              imagePullPolicy: IfNotPresent
+              command:
+                - torchrun
+                - --nnodes=2
+                - --nproc-per-node=2
+                - --rdzv_backend=c10d
+                - -m
+                - lora_recipe.cli
+                - run
+                - --config
+                - configs/qwen-0.5b-lora.yaml
+                - --distributed
+              resources:
+                limits: { nvidia.com/gpu: 2, memory: 64Gi, cpu: "16" }
+                requests: { nvidia.com/gpu: 2, memory: 32Gi, cpu: "8" }
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities: { drop: ["ALL"] }
+              volumeMounts:
+                - { name: shm, mountPath: /dev/shm }
+                - { name: tmp, mountPath: /tmp }
+                - { name: out, mountPath: /outputs }
+          volumes:
+            - name: shm
+              emptyDir: { medium: Memory, sizeLimit: 16Gi }
+            - name: tmp
+              emptyDir: { sizeLimit: 8Gi }
+            - name: out
+              emptyDir: { sizeLimit: 8Gi }
+    Worker:
+      replicas: 1
+      restartPolicy: OnFailure
+      template:
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: pytorch
+              image: ghcr.io/lyftium/lora-finetune-recipe:0.1.0
+              imagePullPolicy: IfNotPresent
+              command:
+                - torchrun
+                - --nnodes=2
+                - --nproc-per-node=2
+                - --rdzv_backend=c10d
+                - -m
+                - lora_recipe.cli
+                - run
+                - --config
+                - configs/qwen-0.5b-lora.yaml
+                - --distributed
+              resources:
+                limits: { nvidia.com/gpu: 2, memory: 64Gi, cpu: "16" }
+                requests: { nvidia.com/gpu: 2, memory: 32Gi, cpu: "8" }
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities: { drop: ["ALL"] }
+              volumeMounts:
+                - { name: shm, mountPath: /dev/shm }
+                - { name: tmp, mountPath: /tmp }
+                - { name: out, mountPath: /outputs }
+          volumes:
+            - name: shm
+              emptyDir: { medium: Memory, sizeLimit: 16Gi }
+            - name: tmp
+              emptyDir: { sizeLimit: 8Gi }
+            - name: out
+              emptyDir: { sizeLimit: 8Gi }
