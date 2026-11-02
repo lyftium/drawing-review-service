@@ -1,13 +1,9 @@
 # CI workflow
 
-`github-actions-ci.yml` is the GitHub Actions pipeline for this repo: lint, tests,
-evaluation gates, manifest validation, and an image build with a smoke test.
+CI is **enabled** at [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
 
-It lives here rather than in `.github/workflows/` only because the token used to
-publish the repo could not write workflow files. To turn it on:
+It runs lint, tests, evaluation gates, manifest validation (kind + GPU overlays,
+vLLM manifests, and the OpenShift kustomize overlay with
+`kubeconform -ignore-missing-schemas`), and an image build with a smoke test.
 
-```bash
-mkdir -p .github/workflows
-git mv ci/github-actions-ci.yml .github/workflows/ci.yml
-git commit -m "Enable CI" && git push
-```
+The copy under `ci/github-actions-ci.yml` is kept in sync for reference.
