@@ -170,7 +170,7 @@ image build with a smoke test.
 
 **OpenShift overlay (implemented)**: `deploy/openshift/` adds a TLS Route, an
 SCC-aware Deployment patch (no fixed UID), and a `PyTorchJob` YAML for the Training
-Operator CRD. Full guide: [`docs/openshift.md`](docs/openshift.md). AI Act–style
+Operator CRD. Full guide: [`docs/openshift.md`](docs/openshift.md). Serving placement: [`docs/openshift-ai-serving.md`](docs/openshift-ai-serving.md). AI Act–style
 engineering mapping (checklist, not a legal claim):
 [`docs/ai-act-mapping.md`](docs/ai-act-mapping.md).
 
