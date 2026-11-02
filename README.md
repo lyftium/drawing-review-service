@@ -1,8 +1,10 @@
 # drawing-review-service
 
+> **Keywords for recruiters:** Python · FastAPI microservice · Docker · Kubernetes (GPU overlay) · vLLM inference · Prometheus · MLOps lineage & eval gates · engineering drawings / GD&T · AI gateway design · path toward OpenShift
+
 A reference implementation of what it takes to turn a technical-drawing analysis
-prototype into a service you could actually run: deployable, measurable, secure and
-maintainable.
+prototype into a **industrialised AI component**: deployable, measurable, secure and
+maintainable — the same loop as packaging a model team's prototype onto a shared AI compute cluster.
 
 The pipeline mirrors the stages of my private drawing-review project (GOLLAMC): find the
 annotations on a drawing, read them, interpret them, check them against the rules a
