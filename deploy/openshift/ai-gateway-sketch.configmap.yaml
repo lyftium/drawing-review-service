@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-gateway-sketch
+  namespace: drawing-review
+  labels:
+    app.kubernetes.io/name: drawing-review
+    app.kubernetes.io/component: gateway-sketch
+data:
+  README: |
+    Sketch only: preferred production path is the platform AI Gateway / Service Mesh.
+    This ConfigMap documents the routing contract the service expects.
+  routes.yaml: |
+    routes:
+      - match: /drawing-review/*
+        upstream: drawing-review.drawing-review.svc.cluster.local:80
+        auth: oidc
+        quota: { rpm: 60, concurrent: 8 }
+      - match: /llm/llava/*
+        upstream: vllm-llava.drawing-review.svc.cluster.local:8000
+        auth: oidc-platform-only
+        quota: { rpm: 30, tokens_per_day: 2000000 }
+    logging:
+      allow: [timestamp, request_id, client_id, route, status, latency_ms, bytes_in, bytes_out, model]
+      deny: [filename, file_bytes, ocr_text, prompt, completion]
