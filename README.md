@@ -1,8 +1,7 @@
 # drawing-review-service
 
 A reference implementation of what it takes to turn a technical-drawing analysis
-prototype into a **industrialised AI component**: deployable, measurable, secure and
-maintainable — the same loop as packaging a model team's prototype onto a shared AI compute cluster.
+prototype into a service that is deployable, measurable, and maintainable.
 
 The pipeline mirrors the stages of my private drawing-review project (GOLLAMC): find the
 annotations on a drawing, read them, interpret them, check them against the rules a
@@ -16,6 +15,16 @@ The model backends are pluggable. Out of the box the service runs with lightweig
 stub backends, so the whole thing (API, tests, evaluation, Kubernetes manifests)
 works on a laptop with no GPU and no weights. Swapping in YOLO, Tesseract or a LLaVA
 model served by vLLM is a configuration change.
+
+## At a glance
+
+| Area | In this repo |
+|:--|:--|
+| Service | FastAPI, Docker, health probes, NetworkPolicy |
+| Cluster | Kubernetes manifests + OpenShift overlay (Route, restricted SCC) |
+| Inference | vLLM Deployment (GPU); gateway design notes |
+| Quality | Eval harness, release gates, Prometheus, run lineage |
+| Training | PyTorchJob YAML for Training Operator |
 
 ## Architecture
 
