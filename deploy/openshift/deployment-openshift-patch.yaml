@@ -1,5 +1,6 @@
 # Restricted SCC / restricted-v2: OpenShift assigns an arbitrary UID from the
-# namespace range. Drop fixed runAsUser/runAsGroup so the platform can inject them.
+# namespace range. The fixed runAsUser/runAsGroup/fsGroup are removed by the
+# JSON patches in kustomization.yaml (a strategic merge cannot delete fields).
 # Keep runAsNonRoot, drop ALL caps, read-only root, RuntimeDefault seccomp.
 apiVersion: apps/v1
 kind: Deployment
@@ -11,7 +12,6 @@ spec:
       securityContext:
         runAsNonRoot: true
         seccompProfile: { type: RuntimeDefault }
-        # runAsUser / runAsGroup / fsGroup omitted on purpose (OpenShift SCC)
       containers:
         - name: api
           securityContext:

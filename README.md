@@ -109,7 +109,8 @@ DRW_STUB_CHAR_ERROR_RATE=0.03 DRW_STUB_DROP_RATE=0.05 DRW_STUB_JITTER_PX=4 \
 | ✅ | Business logic, model loading, config and I/O separated | `src/drawing_review/` |
 | ✅ | Stable interface: pydantic schemas, structured errors (413/415/422/503) with request id | `schemas.py`, `api.py` |
 | ✅ | Pluggable backends, CPU stubs so tests run without weights | `backends/` |
-| ✅ | Unit + integration tests (54), lint, CI pipeline | `tests/`, `ci/github-actions-ci.yml` |
+| ✅ | Unit + integration tests (57), lint config | `tests/` |
+| 📝 | CI pipeline (lint, tests, eval gates, manifest validation, image smoke test) written, not yet enabled | `ci/github-actions-ci.yml` |
 | ✅ | Evaluation harness with release gates, extraction vs business | `evaluation/` |
 | ✅ | Lineage: git sha, backend versions, config hash, dataset hash per result and per run | `lineage.py` |
 | ✅ | Pinned dependencies, multi-stage image, non-root user | `requirements.lock`, `Dockerfile` |
@@ -170,13 +171,15 @@ I want to be precise about what is here.
 
 **Implemented and tested in this repo**: the pipeline, the API, the stub backends,
 the rules engine, the evaluation harness and gates, lineage, metrics, the benchmark
-script, the Docker image, and Kubernetes manifests that validate against the schema
-(`kubeconform -strict`). CI is enabled (`.github/workflows/ci.yml`): lint, tests,
-evaluation gates, manifest validation (including the OpenShift overlay), and an
-image build with a smoke test.
+script, the Docker image, and Kubernetes manifests that build with kustomize
+(`make validate` adds `kubeconform`). The CI workflow is written
+(`ci/github-actions-ci.yml`: lint, tests, evaluation gates, manifest validation
+including the OpenShift overlay, image build with a smoke test) but not enabled on
+this repository yet.
 
 **OpenShift overlay (implemented)**: `deploy/openshift/` adds a TLS Route, an
-SCC-aware Deployment patch (no fixed UID), and a `PyTorchJob` YAML for the Training
+SCC-aware Deployment patch (fixed UIDs removed with JSON patches), a NetworkPolicy
+for the router, monitoring and `openshift-dns`, and a `PyTorchJob` YAML for the Training
 Operator CRD. Full guide: [`docs/openshift.md`](docs/openshift.md). Serving placement: [`docs/openshift-ai-serving.md`](docs/openshift-ai-serving.md). AI Act–style
 engineering mapping (checklist, not a legal claim):
 [`docs/ai-act-mapping.md`](docs/ai-act-mapping.md).

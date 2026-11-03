@@ -57,6 +57,7 @@ def main(argv: list[str] | None = None) -> int:
         report = evaluate(args.data, settings, runs_dir=args.runs_dir)
         md = render_markdown(report)
         if args.report:
+            args.report.parent.mkdir(parents=True, exist_ok=True)
             args.report.write_text(md)
         print(md)
         print(json.dumps(report["gates"], indent=2), file=sys.stderr)

@@ -8,7 +8,9 @@ This overlay targets OpenShift / OKD (and CRC locally). It is **manifests + docs
 |---|---|
 | `kustomization.yaml` | Builds on `../k8s/base`, adds the Route, applies the SCC patch |
 | `route.yaml` | OpenShift `Route` with TLS edge termination → Service `drawing-review` |
-| `deployment-openshift-patch.yaml` | Drops fixed `runAsUser` / `runAsGroup` / `fsGroup` so restricted SCC can inject UIDs |
+| `deployment-openshift-patch.yaml` | Restricted security context (non-root, no capabilities, read-only root, seccomp) |
+| JSON patches in `kustomization.yaml` | Remove fixed `runAsUser` / `runAsGroup` / `fsGroup` from the Deployment and eval Job so restricted SCC can inject UIDs |
+| `networkpolicy-openshift.yaml` | Lets the router (Route traffic) and monitoring namespaces reach port 8080, and allows DNS to `openshift-dns` on 5353 |
 | `pytorchjob-ddp.yaml` | Example `PyTorchJob` for the Training Operator (OpenShift AI uses the same CRD family) |
 
 ## Why the SCC patch
@@ -20,7 +22,7 @@ OpenShift `restricted` / `restricted-v2` assigns an arbitrary UID from the names
 - `readOnlyRootFilesystem: true`
 - `seccompProfile: RuntimeDefault`
 
-and **omits** fixed UIDs/GIDs. That matches restricted SCC without requesting privileged or anyuid.
+and **removes** the fixed UIDs/GIDs inherited from the base. A strategic-merge patch cannot delete a field by leaving it out, so the removal is done with JSON 6902 `remove` operations; `kustomize build deploy/openshift | grep runAs` should only show `runAsNonRoot`. That matches restricted SCC without requesting privileged or anyuid.
 
 ## Local CRC / `oc` path
 

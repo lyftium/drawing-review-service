@@ -1,0 +1,27 @@
+# Additive to the base policy (NetworkPolicies are unioned). On OpenShift the
+# Route arrives from the router pods, Prometheus scrapes from the monitoring
+# namespaces, and cluster DNS listens on 5353 in openshift-dns.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: drawing-review-openshift
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: drawing-review
+  policyTypes: ["Ingress", "Egress"]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: { network.openshift.io/policy-group: ingress }
+        - namespaceSelector:
+            matchLabels: { network.openshift.io/policy-group: monitoring }
+      ports:
+        - { port: 8080, protocol: TCP }
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: openshift-dns }
+      ports:
+        - { port: 5353, protocol: UDP }
+        - { port: 5353, protocol: TCP }

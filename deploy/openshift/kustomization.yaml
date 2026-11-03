@@ -4,8 +4,25 @@ namespace: drawing-review
 resources:
   - ../k8s/base
   - route.yaml
+  - networkpolicy-openshift.yaml
 patches:
   - path: deployment-openshift-patch.yaml
+  # restricted-v2 assigns a UID from the namespace range and rejects pods that
+  # pin one, so the fixed IDs from the base have to be removed, not just omitted.
+  - target: { kind: Deployment, name: drawing-review }
+    patch: |-
+      - op: remove
+        path: /spec/template/spec/securityContext/runAsUser
+      - op: remove
+        path: /spec/template/spec/securityContext/runAsGroup
+      - op: remove
+        path: /spec/template/spec/securityContext/fsGroup
+  - target: { kind: Job, name: drawing-review-eval }
+    patch: |-
+      - op: remove
+        path: /spec/template/spec/securityContext/runAsUser
+      - op: remove
+        path: /spec/template/spec/securityContext/runAsGroup
 images:
   - name: ghcr.io/lyftium/drawing-review-service
     newTag: 0.1.0
