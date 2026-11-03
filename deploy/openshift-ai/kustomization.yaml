@@ -1,0 +1,20 @@
+# OpenShift AI: the OpenShift overlay (Route, SCC, NetworkPolicies) plus KServe
+# single-model serving for the VLM. kustomize build deploy/openshift-ai
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: drawing-review
+resources:
+  - ../openshift
+components:
+  - ../kserve
+patches:
+  # Shows the project and its InferenceService in the OpenShift AI dashboard, with
+  # single-model (KServe) serving rather than ModelMesh.
+  - target: { kind: Namespace, name: drawing-review }
+    patch: |-
+      - op: add
+        path: /metadata/labels/opendatahub.io~1dashboard
+        value: "true"
+      - op: add
+        path: /metadata/labels/modelmesh-enabled
+        value: "false"

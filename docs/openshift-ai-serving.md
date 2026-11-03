@@ -1,13 +1,15 @@
 # OpenShift AI model serving notes
 
-How this service would sit next to a shared inference stack (vLLM / KServe-style) on OpenShift AI.
+How this service sits next to a shared inference stack on OpenShift AI. The model
+side is implemented with KServe in `deploy/openshift-ai/`; details and trade-offs in
+[`kserve.md`](kserve.md).
 
 ## Placement
 
 ```
 users -> Route / AI Gateway (OIDC, quotas, request-id)
-      -> drawing-review Service (business API)
-      -> vLLM / model-server Service (GPU pool)
+      -> drawing-review Service (business API, no GPU)
+      -> KServe InferenceService "llava" (vLLM ServingRuntime, GPU pool)
 Training Operator -> PyTorchJob (DDP/FSDP fine-tunes) -> model registry / PVC
 ```
 
@@ -21,6 +23,8 @@ Training Operator -> PyTorchJob (DDP/FSDP fine-tunes) -> model registry / PVC
 
 ## Related files
 
+- deploy/openshift-ai/ + deploy/kserve/ (ServingRuntime, InferenceService, NetworkPolicies)
+- docs/kserve.md
 - deploy/openshift/ (Route + SCC patch + PyTorchJob)
 - deploy/k8s/vllm/vllm-llava.yaml
 - docs/gateway.md

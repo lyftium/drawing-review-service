@@ -1,0 +1,37 @@
+# The LLaVA model as a KServe InferenceService on the vLLM runtime.
+#
+# RawDeployment: a plain Deployment + Service + HPA, no Knative or service mesh.
+# GPU pods take minutes to load weights, so scale-to-zero (Serverless mode) would
+# put that load time on the first request; a fixed floor of one replica avoids it.
+#
+# Weights are a plain directory on the model-weights PVC (not a Hub cache), staged
+# once with: huggingface-cli download llava-hf/llava-1.5-7b-hf --local-dir <pvc>/llava-1.5-7b-hf
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: llava
+  labels:
+    opendatahub.io/dashboard: "true"
+  annotations:
+    serving.kserve.io/deploymentMode: RawDeployment
+    openshift.io/display-name: LLaVA 1.5 7B (drawing review)
+spec:
+  predictor:
+    # CPU is the wrong autoscaling signal for a GPU server; scale on vLLM's queue
+    # depth (KEDA on vllm:num_requests_waiting) once there is load data to size it.
+    minReplicas: 1
+    maxReplicas: 1
+    tolerations:
+      - { key: nvidia.com/gpu, operator: Exists, effect: NoSchedule }
+    model:
+      runtime: vllm-openai
+      modelFormat: { name: vLLM }
+      storageUri: pvc://model-weights/llava-1.5-7b-hf
+      args:
+        - --tensor-parallel-size=2  # splits each layer over the 2 GPUs of this pod
+        - --max-model-len=4096
+        - --gpu-memory-utilization=0.90
+        - --max-num-seqs=32
+      resources:
+        requests: { cpu: "4", memory: 24Gi, nvidia.com/gpu: "2" }
+        limits: { cpu: "8", memory: 32Gi, nvidia.com/gpu: "2" }

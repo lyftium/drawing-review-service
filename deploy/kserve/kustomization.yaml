@@ -1,0 +1,17 @@
+# Kustomize Component: adds KServe model serving to an overlay that already has the
+# drawing-review API, and points the API at the InferenceService instead of the
+# standalone vLLM Deployment. Used by deploy/openshift-ai.
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - servingruntime-vllm.yaml
+  - inferenceservice-llava.yaml
+  - networkpolicy-kserve.yaml
+patches:
+  # RawDeployment exposes the predictor as <isvc>-predictor on port 80, and the
+  # runtime serves the model under the InferenceService name ({{.Name}}).
+  - target: { kind: ConfigMap, name: drawing-review-config }
+    patch: |-
+      - { op: replace, path: /data/DRW_INTERPRETER, value: llava }
+      - { op: replace, path: /data/DRW_LLAVA_BASE_URL, value: "http://llava-predictor/v1" }
+      - { op: replace, path: /data/DRW_LLAVA_MODEL, value: llava }

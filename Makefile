@@ -34,6 +34,7 @@ validate:
 	kubectl kustomize deploy/k8s/overlays/gpu | kubeconform -strict -summary -
 	kubeconform -strict -summary deploy/k8s/vllm/
 	kubectl kustomize deploy/openshift | kubeconform -strict -ignore-missing-schemas -summary -
+	kubectl kustomize deploy/openshift-ai | kubeconform -strict -ignore-missing-schemas -schema-location default -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' -summary -
 
 bench:
 	python bench/load_test.py service --url http://localhost:8080 -n 200 -c 8

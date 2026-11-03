@@ -14,7 +14,8 @@ tests, the eval or the image build (`drawing-review golden`).
 The model backends are pluggable. Out of the box the service runs with lightweight
 stub backends, so the whole thing (API, tests, evaluation, Kubernetes manifests)
 works on a laptop with no GPU and no weights. Swapping in YOLO, Tesseract or a LLaVA
-model served by vLLM is a configuration change.
+model served by vLLM (standalone, or through KServe on OpenShift AI) is a
+configuration change.
 
 ## At a glance
 
@@ -22,7 +23,7 @@ model served by vLLM is a configuration change.
 |:--|:--|
 | Service | FastAPI, Docker, health probes, NetworkPolicy |
 | Cluster | Kubernetes manifests + OpenShift overlay (Route, restricted SCC) |
-| Inference | vLLM Deployment (GPU); gateway design notes |
+| Inference | KServe `InferenceService` on a vLLM `ServingRuntime` (OpenShift AI); standalone vLLM Deployment; gateway design notes |
 | Quality | Eval harness, release gates, Prometheus, run lineage |
 | Training | PyTorchJob YAML for Training Operator |
 
@@ -117,6 +118,7 @@ DRW_STUB_CHAR_ERROR_RATE=0.03 DRW_STUB_DROP_RATE=0.05 DRW_STUB_JITTER_PX=4 \
 | ✅ | Kubernetes: resources, startup/readiness/liveness probes, read-only root fs, dropped capabilities, restricted Pod Security, NetworkPolicy, PDB, weights on a PVC, eval Job | `deploy/k8s/` |
 | ✅ | GPU overlay (`nvidia.com/gpu` requests = limits, node selector, tolerations) | `deploy/k8s/overlays/gpu` |
 | ✅ | vLLM serving example with tensor parallelism, request logging off | `deploy/k8s/vllm/` |
+| ✅ | KServe: vLLM `ServingRuntime` + `InferenceService` (RawDeployment, 2 GPUs, weights from PVC), OpenShift AI overlay, validated against the KServe CRD schemas | `deploy/kserve/`, `deploy/openshift-ai/`, `docs/kserve.md` |
 | ✅ | Metrics: request and stage latency histograms (p95), error counter, LLM time to first token; alert rules | `metrics.py`, `deploy/monitoring/` |
 | ✅ | Load benchmark for the service and for an OpenAI-compatible LLM endpoint (TTFT, p95) | `bench/load_test.py` |
 | ✅ | Logging policy: hashes, sizes and timings only, never file names or content (tested) | `api.py`, `tests/test_api.py` |
@@ -165,6 +167,14 @@ With real models (needs a GPU node, the NVIDIA device plugin and weights on the
 `model-weights` volume): `kubectl apply -k deploy/k8s/overlays/gpu` and
 `kubectl apply -f deploy/k8s/vllm/`.
 
+On OpenShift AI, the model is served by KServe instead
+([`docs/kserve.md`](docs/kserve.md)):
+
+```bash
+kustomize build deploy/openshift-ai | oc apply -f -
+oc -n drawing-review get inferenceservice llava
+```
+
 ## Status and roadmap
 
 I want to be precise about what is here.
@@ -179,7 +189,9 @@ this repository yet.
 
 **OpenShift overlay (implemented)**: `deploy/openshift/` adds a TLS Route, an
 SCC-aware Deployment patch (fixed UIDs removed with JSON patches), a NetworkPolicy
-for the router, monitoring and `openshift-dns`, and a `PyTorchJob` YAML for the Training
+for the router, monitoring and `openshift-dns`, KServe model serving for OpenShift AI
+(`deploy/openshift-ai/`, [`docs/kserve.md`](docs/kserve.md); schema-validated, not yet
+applied to a live cluster), and a `PyTorchJob` YAML for the Training
 Operator CRD. Full guide: [`docs/openshift.md`](docs/openshift.md). Serving placement: [`docs/openshift-ai-serving.md`](docs/openshift-ai-serving.md). AI Act–style
 engineering mapping (checklist, not a legal claim):
 [`docs/ai-act-mapping.md`](docs/ai-act-mapping.md).
