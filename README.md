@@ -217,3 +217,7 @@ CUDA nccl). This repo carries the cluster submit YAML (`deploy/openshift/pytorch
 ## License
 
 MIT
+
+## Laptop smoke
+
+Latest local pytest evidence: [`docs/evidence/laptop-smoke-2026-11-04.md`](docs/evidence/laptop-smoke-2026-11-04.md) (57 passed). Docker/Kind apply still blocked without registry access.
