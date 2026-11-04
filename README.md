@@ -14,9 +14,10 @@ manifests on a laptop with no GPU. YOLO, Tesseract or a LLaVA model on vLLM
 | | |
 |:--|:--|
 | **Problem** | A drawing-review prototype that only runs locally cannot be shared, scored or prepared for a cluster. |
-| **Verify** | `make install && make test` (57 CPU tests) · `make eval` · `make validate` · `bash scripts/demo_rollback.sh` (needs live apply) · `make image && docker run --rm -p 8080:8080 --read-only --tmpfs /tmp drawing-review:dev` |
-| **CI-ready** | [`ci/github-actions-ci.yml`](ci/github-actions-ci.yml) — enable with `bash scripts/install-github-actions.sh` once `workflow` scope is granted |
-| **Status & limits** | OpenShift AI / KServe manifests are schema-validated; **not applied to a live GPU cluster**. CI workflow written, **not enabled**. No CI badge. |
+| **90s path** | `make install && make test` → `make eval` → `make validate` (kubeconform) → skim [`docs/evidence/`](docs/evidence/) |
+| **Verify** | 57 CPU tests · golden eval · kubeconform on kind/gpu/OpenShift AI overlays ([evidence](docs/evidence/kubeconform-2026-11-04.md)) · rollback script needs live apply |
+| **CI-ready** | [`ci/github-actions-ci.yml`](ci/github-actions-ci.yml) — `bash scripts/install-github-actions.sh` once `workflow` scope is granted |
+| **Status & limits** | Manifests **schema-validated**; **not applied** to a live GPU cluster. CI written, **not enabled**. No CI badge. |
 | **Next** | Apply `deploy/openshift-ai` on a shared GPU project; enable CI; measure TTFT against a real InferenceService. |
 
 ## At a glance
