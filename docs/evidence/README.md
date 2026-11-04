@@ -4,6 +4,7 @@
 
 | File | What it proves |
 |---|---|
+| [`RELEASE-PACK.md`](RELEASE-PACK.md) | Screener index: proven vs blocked |
 | [`laptop-smoke-2026-11-04.md`](laptop-smoke-2026-11-04.md) | 57 pytest (DRS) + 48 pytest (AGS) on laptop; Docker/Kind blocked by registry DNS |
 | [`kubeconform-2026-11-04.md`](kubeconform-2026-11-04.md) | `make validate` — kind/gpu/vLLM/OpenShift/OpenShift AI overlays schema-valid (not live-applied) |
 
