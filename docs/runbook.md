@@ -1,6 +1,21 @@
 # Runbook: the model or the service does not start
 
-Work from the outside in, and change one thing at a time.
+Work from the outside in, and change one thing at a time. Prefer **events before
+guesses**.
+
+## Pending / CrashLoop decision tree (events-first)
+
+| Symptom | First command | Likely class | Not this |
+|---|---|---|---|
+| Pod `Pending` | `kubectl describe pod` → Events | Scheduling (GPU/CPU/memory/taints) | App code |
+| `Insufficient nvidia.com/gpu` | `kubectl describe node` allocatable GPUs | Capacity / quota | CUDA OOM |
+| `ImagePullBackOff` | Events + image ref | Registry / tag / digest / pull secret | Model weights |
+| `CrashLoopBackOff` | `logs --previous` | Config / missing file / import | Scheduler |
+| OOMKilled (exit 137) | `kubectl describe pod` → Last State | cgroup memory limit | CUDA allocator OOM |
+| CUDA OOM in logs | vLLM / torch log line | GPU memory / seq length / util | Node Pending |
+
+Generic Kind path (CPU stubs): `make deploy-kind` then re-run the table above. GPU
+nodes are optional; do not require privileged pods.
 
 1. **State and events**
    `kubectl -n drawing-review get pods -o wide` then

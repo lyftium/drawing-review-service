@@ -1,0 +1,32 @@
+{
+  "schema_version": "1",
+  "project": "drawing-review-service",
+  "git_sha": "ca596673",
+  "created_at": "2026-11-04T19:00:00-08:00",
+  "artefacts": {
+    "image": {
+      "ref": "drawing-review:dev",
+      "digest": null,
+      "dockerfile": "Dockerfile",
+      "runs_as_uid": 10001
+    },
+    "model": {
+      "id": "stub-backends",
+      "revision": null,
+      "weights_digest": null
+    },
+    "config_hash": null,
+    "data_hash": "golden/manifest.json (synthetic seed drawing-review golden)"
+  },
+  "evaluation": {
+    "command": "make test && make eval && make validate",
+    "report": "docs/evidence/laptop-smoke-2026-11-04.md",
+    "gates": "golden eval + kubeconform (docs/evidence/kubeconform-2026-11-04.md)",
+    "result": "pass"
+  },
+  "limits": {
+    "live_cluster_apply": false,
+    "ci_enabled": false,
+    "notes": "CPU stubs only. Image digest null until GHCR push. CI workflow written under ci/ not enabled (needs workflow OAuth scope)."
+  }
+}

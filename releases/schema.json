@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lyftium.github.io/schemas/release-manifest-v1.json",
+  "title": "ReleaseManifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "git_sha",
+    "created_at",
+    "artefacts",
+    "evaluation",
+    "limits"
+  ],
+  "properties": {
+    "schema_version": { "const": "1" },
+    "project": { "type": "string" },
+    "git_sha": { "type": "string", "minLength": 7 },
+    "created_at": { "type": "string" },
+    "artefacts": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "type": "object",
+          "properties": {
+            "ref": { "type": "string" },
+            "digest": { "type": ["string", "null"] },
+            "dockerfile": { "type": "string" },
+            "runs_as_uid": { "type": "integer" }
+          }
+        },
+        "model": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "revision": { "type": ["string", "null"] },
+            "weights_digest": { "type": ["string", "null"] }
+          }
+        },
+        "config_hash": { "type": ["string", "null"] },
+        "data_hash": { "type": ["string", "null"] }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "properties": {
+        "command": { "type": "string" },
+        "report": { "type": ["string", "null"] },
+        "gates": { "type": ["string", "null"] },
+        "result": { "type": "string", "enum": ["pass", "fail", "not_run", "stub"] }
+      },
+      "required": ["result"]
+    },
+    "limits": {
+      "type": "object",
+      "properties": {
+        "live_cluster_apply": { "type": "boolean" },
+        "ci_enabled": { "type": "boolean" },
+        "notes": { "type": "string" }
+      },
+      "required": ["live_cluster_apply", "ci_enabled"]
+    }
+  },
+  "additionalProperties": true
+}
