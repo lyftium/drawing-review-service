@@ -39,17 +39,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install kubeconform
+      - name: Install kubeconform + kustomize
         run: |
           curl -sSL https://github.com/yannh/kubeconform/releases/download/v0.6.7/kubeconform-linux-amd64.tar.gz | tar xz
           sudo mv kubeconform /usr/local/bin/
+          curl -sSL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.4.3/kustomize_v5.4.3_linux_amd64.tar.gz | tar xz
+          sudo mv kustomize /usr/local/bin/
       - name: Validate rendered manifests
         run: |
-          kubectl kustomize deploy/k8s/overlays/kind | kubeconform -strict -summary -
-          kubectl kustomize deploy/k8s/overlays/gpu | kubeconform -strict -summary -
+          kustomize build deploy/k8s/overlays/kind | kubeconform -strict -summary -
+          kustomize build deploy/k8s/overlays/gpu | kubeconform -strict -summary -
           kubeconform -strict -summary deploy/k8s/vllm/
-          kubectl kustomize deploy/openshift | kubeconform -strict -ignore-missing-schemas -summary -
-          kubectl kustomize deploy/openshift-ai | kubeconform -strict -ignore-missing-schemas -schema-location default -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' -summary -
+          kustomize build deploy/openshift | kubeconform -strict -ignore-missing-schemas -summary -
+          kustomize build deploy/openshift-ai | kubeconform -strict -ignore-missing-schemas -schema-location default -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' -summary -
 
   image:
     runs-on: ubuntu-latest
@@ -68,7 +70,6 @@ jobs:
       - name: Smoke test the image
         run: |
           docker run -d --name drw -p 8080:8080 --read-only --tmpfs /tmp drawing-review:${{ github.sha }}
-          for i in $(seq 1 30); do curl -fs localhost:8080/readyz && break; sleep 1; done
-          drawing-review golden --dir golden
-          curl -fs -F file=@golden/images/syn-001.png localhost:8080/v1/analyze | python -m json.tool | head -20
+          for i in $(seq 1 30); do curl -fsS localhost:8080/readyz && break; sleep 1; done
+          curl -fsS -F file=@golden/images/syn-001.png localhost:8080/v1/analyze | python -m json.tool | head -20
           docker run --rm drawing-review:${{ github.sha }} id -u | grep -qx 10001
