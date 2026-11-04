@@ -1,4 +1,6 @@
 # Drawing Review Service
+
+![CI](https://github.com/lyftium/drawing-review-service/actions/workflows/ci.yml/badge.svg)
 ### From a local drawing-analysis prototype to a testable, deployable microservice
 
 A public demonstrator of AI **integration** for engineering documents: detection →
@@ -16,9 +18,9 @@ manifests on a laptop with no GPU. YOLO, Tesseract or a LLaVA model on vLLM
 | **Problem** | A drawing-review prototype that only runs locally cannot be shared, scored or prepared for a cluster. |
 | **90s path** | `make install && make test` → `make eval` → `make validate` → skim [`docs/evidence/RELEASE-PACK.md`](docs/evidence/RELEASE-PACK.md) |
 | **Verify** | 57 CPU tests · golden eval · kubeconform on kind/gpu/OpenShift AI overlays ([evidence](docs/evidence/kubeconform-2026-11-04.md)) · rollback script needs live apply |
-| **CI-ready** | [`ci/github-actions-ci.yml`](ci/github-actions-ci.yml) — `bash scripts/install-github-actions.sh` once `workflow` scope is granted |
-| **Status & limits** | Manifests **schema-validated**; **not applied** to a live GPU cluster. CI written, **not enabled**. No CI badge. |
-| **Next** | Apply `deploy/openshift-ai` on a shared GPU project; enable CI; measure TTFT against a real InferenceService. |
+| **CI** | ![CI](https://github.com/lyftium/drawing-review-service/actions/workflows/ci.yml/badge.svg) — workflow live under [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
+| **Status & limits** | Manifests **schema-validated**; **not applied** to a live GPU cluster. CI **enabled** on `main` (see badge). |
+| **Next** | Apply `deploy/openshift-ai` on a shared GPU project; measure TTFT against a real InferenceService. |
 
 ## At a glance
 
