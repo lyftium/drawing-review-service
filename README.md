@@ -27,6 +27,7 @@ manifests on a laptop with no GPU. YOLO, Tesseract or a LLaVA model on vLLM
 | Inference | KServe `InferenceService` on a vLLM `ServingRuntime` (OpenShift AI); standalone vLLM Deployment; gateway design notes |
 | Quality | Eval harness, release gates, Prometheus, run lineage |
 | Training | PyTorchJob YAML for Training Operator |
+| Rollback | `scripts/demo_rollback.sh` + `docs/rollback.md` (needs live apply; evidence under `docs/evidence/`) |
 | Governance | Model / data cards + risk register (`docs/model-card.md`, `docs/data-card.md`, `docs/risk-register.md`); AI Act–style checklist (`docs/ai-act-mapping.md`) — engineering artefacts, not a conformity claim |
 
 ## Architecture
