@@ -14,7 +14,7 @@ manifests on a laptop with no GPU. YOLO, Tesseract or a LLaVA model on vLLM
 | | |
 |:--|:--|
 | **Problem** | A drawing-review prototype that only runs locally cannot be shared, scored or prepared for a cluster. |
-| **90s path** | `make install && make test` → `make eval` → `make validate` (kubeconform) → skim [`docs/evidence/`](docs/evidence/) |
+| **90s path** | `make install && make test` → `make eval` → `make validate` → skim [`docs/evidence/RELEASE-PACK.md`](docs/evidence/RELEASE-PACK.md) |
 | **Verify** | 57 CPU tests · golden eval · kubeconform on kind/gpu/OpenShift AI overlays ([evidence](docs/evidence/kubeconform-2026-11-04.md)) · rollback script needs live apply |
 | **CI-ready** | [`ci/github-actions-ci.yml`](ci/github-actions-ci.yml) — `bash scripts/install-github-actions.sh` once `workflow` scope is granted |
 | **Status & limits** | Manifests **schema-validated**; **not applied** to a live GPU cluster. CI written, **not enabled**. No CI badge. |
@@ -28,6 +28,8 @@ manifests on a laptop with no GPU. YOLO, Tesseract or a LLaVA model on vLLM
 | Cluster | Kubernetes manifests + OpenShift overlay (Route, restricted SCC) |
 | Inference | KServe `InferenceService` on a vLLM `ServingRuntime` (OpenShift AI); standalone vLLM Deployment; gateway design notes |
 | Quality | Eval harness, release gates, Prometheus, run lineage |
+| Observability | Service / quality / infra triad — [`docs/observability.md`](docs/observability.md) |
+| Autoscaling | Honesty note + HPA stub (unmeasured) — [`docs/autoscaling.md`](docs/autoscaling.md) |
 | Training | PyTorchJob YAML for Training Operator |
 | Rollback | `scripts/demo_rollback.sh` + `docs/rollback.md` (needs live apply; evidence under `docs/evidence/`) |
 | Governance | Model / data cards + risk register (`docs/model-card.md`, `docs/data-card.md`, `docs/risk-register.md`); AI Act–style checklist (`docs/ai-act-mapping.md`) — engineering artefacts, not a conformity claim |

@@ -20,6 +20,15 @@ traced back to exactly what produced it.
 3. **Business acceptance**: does the review raise the problems a checker would raise,
    and stay quiet on clean drawings? Also from the harness, gated separately.
 
+## Two pipelines (train vs serve)
+
+| Pipeline | Purpose | Gates in this repo |
+|---|---|---|
+| **Train / adapt** | Produce weights or adapters (optional; see companion LoRA recipe) | Lineage record + holdout scores before promote |
+| **Serve / review** | Package API + backends for engineers | `pytest` → `make eval` / `gates.yaml` → image tag=`git_sha` → schema-valid manifests → rollout |
+
+They share lineage fields (git sha, config hash, data hash) but **not** the same CI job graph until Actions is enabled (`ci/github-actions-ci.yml`).
+
 ## Release path
 
 ```
@@ -31,6 +40,8 @@ code + model version
   -> rollout (RollingUpdate, maxUnavailable 0) and monitoring
   -> rollback: kubectl rollout undo, or point the PVC/config back to the previous weights
 ```
+
+Release identity schema: [`releases/schema.json`](../releases/schema.json).
 
 After release, reviewers' decisions in the CSV (`reviewer_decision`) are the
 feedback that grows the reference set. A disagreement between the review and the
