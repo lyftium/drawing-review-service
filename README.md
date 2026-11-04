@@ -1,21 +1,22 @@
-# drawing-review-service
+# Drawing Review Service
+### From a local drawing-analysis prototype to a testable, deployable microservice
 
-A reference implementation of what it takes to turn a technical-drawing analysis
-prototype into a service that is deployable, measurable, and maintainable.
+A public demonstrator of AI **integration** for engineering documents: detection →
+OCR → vision–language model → rule checks → human review. Distinct from the private
+prototype that inspired it. Contains **no company or customer code, models or
+drawings**; reference images are synthetic and generated from a fixed seed
+(`drawing-review golden`).
 
-The pipeline mirrors the stages of my private drawing-review project (GOLLAMC): find the
-annotations on a drawing, read them, interpret them, check them against the rules a
-checker would apply, and hand the result to an engineer for review. This repository
-is a clean public rebuild of that idea. It contains **no code, model or drawing from
-any company or customer**, and no drawing files at all: the reference drawings are
-synthetic and generated from a fixed seed by the code in this repo when you run the
-tests, the eval or the image build (`drawing-review golden`).
+Backends are pluggable. Default stubs run the API, tests, evaluation and Kubernetes
+manifests on a laptop with no GPU. YOLO, Tesseract or a LLaVA model on vLLM
+(standalone or via KServe) is a configuration change.
 
-The model backends are pluggable. Out of the box the service runs with lightweight
-stub backends, so the whole thing (API, tests, evaluation, Kubernetes manifests)
-works on a laptop with no GPU and no weights. Swapping in YOLO, Tesseract or a LLaVA
-model served by vLLM (standalone, or through KServe on OpenShift AI) is a
-configuration change.
+| | |
+|:--|:--|
+| **Problem** | A drawing-review prototype that only runs locally cannot be shared, scored or prepared for a cluster. |
+| **Verify** | `make install && make test` (57 CPU tests) · `make eval` · `make validate` · `make image && docker run --rm -p 8080:8080 --read-only --tmpfs /tmp drawing-review:dev` |
+| **Status & limits** | OpenShift AI / KServe manifests are schema-validated; **not applied to a live GPU cluster**. CI workflow written, **not enabled**. No CI badge. |
+| **Next** | Apply `deploy/openshift-ai` on a shared GPU project; enable CI; measure TTFT against a real InferenceService. |
 
 ## At a glance
 
