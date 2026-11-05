@@ -11,7 +11,7 @@ Screener checklist: what is **proven in-repo** vs still waiting on environment a
 | Rollback contract | [`../rollback.md`](../rollback.md) + `scripts/demo_rollback.sh` | Undo procedure exists | Captured undo transcript (needs apply) |
 | Governance | `docs/model-card.md`, `data-card.md`, `risk-register.md`, `ai-act-mapping.md` | Engineering artefacts present | Legal conformity |
 | CI workflow | `ci/github-actions-ci.yml` | Ready to enable | Green Actions badge (needs `workflow` scope) |
-| Release identity | [`releases/schema.json`](../../releases/schema.json) + [`example-laptop-2026-11-04.json`](../../releases/example-laptop-2026-11-04.json) | commit ↔ eval ↔ limits; image digest null until GHCR | Live digest |
+| Release identity | [`releases/schema.json`](../../releases/schema.json) + [`example-laptop-2026-11-04.json`](../../releases/example-laptop-2026-11-04.json) | commit ↔ eval ↔ limits; image digest pinned `sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad` | Digest recorded |
 | Supply chain | [`../SUPPLY_CHAIN.md`](../SUPPLY_CHAIN.md) | Cold-start inventory + offline flags | Air-gapped build proof |
 
 ## 90-second verify

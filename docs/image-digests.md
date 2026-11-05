@@ -1,24 +1,15 @@
 # Image digests (GHCR)
 
-**Status.** Registry digests only after `docker push` to `ghcr.io/lyftium/...`.
+**Status.** Registry digests from Actions GHCR push, verified with local `docker pull` `RepoDigests` (America/Los_Angeles).
 
-| Image | Tag | Digest | Built from | Date |
+| Image | Tag | Digest | Built from | Date (America/Los_Angeles) |
 |---|---|---|---|---|
-| `ghcr.io/lyftium/drawing-review-service` | `dev` (intended) | _(not pushed — need `write:packages`)_ | local Kind build | 2026-11-04 America/Los_Angeles |
-| `ghcr.io/lyftium/agent-gateway-stack` | _(pending)_ | _(not pushed)_ | — | — |
+| `ghcr.io/lyftium/drawing-review-service` | `dev`, `0.1.0`, `sha-56d4d68e35762b1a03a99c7626593a17c1fe7067` | `sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad` | Actions [41944936644](https://github.com/lyftium/drawing-review-service/actions/runs/41944936644) @ `56d4d68e3576` | 2026-11-04 16:57 PST |
 
-## Local Kind build (image id, not a registry digest)
+## Verified RepoDigest
 
-| Field | Value |
-|---|---|
-| Local tag | `drawing-review:dev` |
-| Image ID | `sha256:41505eb281baa06ee2a9efa4618e5a8358d1a2ee640af11b47e6ce2dcb72cd27` |
-| Kind | `drw` — deploy Ready 1/1 + eval Job Complete |
-
-```bash
-gh auth refresh -h github.com -s write:packages,read:packages
-echo "$(gh auth token)" | docker login ghcr.io -u lyftium --password-stdin
-docker tag drawing-review:dev ghcr.io/lyftium/drawing-review-service:dev
-docker push ghcr.io/lyftium/drawing-review-service:dev
-docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/lyftium/drawing-review-service:dev
+```text
+ghcr.io/lyftium/drawing-review-service@sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad
 ```
+
+Kind overlay keeps `drawing-review:dev` (local load). Base / OpenShift overlays pin this digest.

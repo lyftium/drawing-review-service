@@ -14,3 +14,4 @@ resources:
 images:
   - name: ghcr.io/lyftium/drawing-review-service
     newTag: 0.1.0
+    digest: sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad
