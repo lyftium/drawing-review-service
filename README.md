@@ -17,7 +17,7 @@ manifests on a laptop with no GPU. YOLO, Tesseract or a LLaVA model on vLLM
 |:--|:--|
 | **Problem** | A drawing-review prototype that only runs locally cannot be shared, scored or prepared for a cluster. |
 | **90s path** | `make install && make test` → `make eval` → `make validate` → skim [`docs/evidence/RELEASE-PACK.md`](docs/evidence/RELEASE-PACK.md) |
-| **Verify** | 57 CPU tests · golden eval · kubeconform · Kind Ready evidence · GHCR digest · rollback script needs live GPU/cluster undo transcript |
+| **Verify** | 57 CPU tests · golden eval · kubeconform · Kind Ready + [rollback evidence](docs/evidence/kind-apply/rollback-20261104-183013.txt) · GHCR digest |
 | **CI** | ![CI](https://github.com/lyftium/drawing-review-service/actions/workflows/ci.yml/badge.svg) — workflow live under [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
 | **Status & limits** | Kind **Ready 1/1** + eval Complete ([`docs/evidence/kind-apply/`](docs/evidence/kind-apply/)). GPU OpenShift **not** applied live. CI **enabled**. GHCR `sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad` ([`docs/image-digests.md`](docs/image-digests.md)). |
 | **Next** | Apply `deploy/openshift-ai` on a shared GPU project; measure TTFT against a real InferenceService. |
