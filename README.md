@@ -195,11 +195,11 @@ I want to be precise about what is here.
 
 **Implemented and tested in this repo**: the pipeline, the API, the stub backends,
 the rules engine, the evaluation harness and gates, lineage, metrics, the benchmark
-script, the Docker image, and Kubernetes manifests that build with kustomize
-(`make validate` adds `kubeconform`). The CI workflow is written
-(`ci/github-actions-ci.yml`: lint, tests, evaluation gates, manifest validation
-including the OpenShift overlay, image build + GHCR push on `main`) and is enabled on
-this repository yet.
+script, the Docker image, Kubernetes manifests that build with kustomize
+(`make validate` adds `kubeconform`), Kind Ready apply + eval Job Complete
+([`docs/evidence/kind-apply/`](docs/evidence/kind-apply/)), and CI on `main`
+(lint, tests, eval gates, manifests, image smoke, GHCR push — digest in
+[`docs/image-digests.md`](docs/image-digests.md)).
 
 **OpenShift overlay (implemented)**: `deploy/openshift/` adds a TLS Route, an
 SCC-aware Deployment patch (fixed UIDs removed with JSON patches), a NetworkPolicy
