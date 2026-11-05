@@ -27,3 +27,5 @@ make validate   # kubeconform — see kubeconform-2026-11-04.md
 1. `gh auth refresh -s workflow` → `bash scripts/install-github-actions.sh` + push `.github/workflows/`
 2. Docker Hub / Kind DNS → `make deploy-kind` + paste undo under `kind-apply/`
 3. Shared GPU OpenShift AI project → apply `deploy/openshift-ai`, measure TTFT, fill `docs/image-digests.md`
+
+- Kind rollback: [`kind-apply/rollback-20261104-183013.txt`](kind-apply/rollback-20261104-183013.txt)
