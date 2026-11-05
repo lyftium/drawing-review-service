@@ -35,6 +35,9 @@ drawing-review = "drawing_review.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+drawing_review = ["evaluation/gates.yaml"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"

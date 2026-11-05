@@ -1,0 +1,40 @@
+# Kind apply evidence
+timezone_note: machine-local America/Los_Angeles
+recorded_at: 2026-11-04 16:00:40 PST
+git: da178e9ec1c914635bc91ba53126f28ca91c284c
+image_id: sha256:612e1371c9c1951affc64153d6637bf70ba2792bf3779570fde1d81c3db656d2
+image_created: 2026-11-04T15:58:03.937203415-08:00
+
+NAME                             READY   UP-TO-DATE   AVAILABLE   AGE    CONTAINERS   IMAGES               SELECTOR
+deployment.apps/drawing-review   1/1     1            1           2m3s   api          drawing-review:dev   app.kubernetes.io/component=api,app.kubernetes.io/name=drawing-review
+
+NAME                                  READY   STATUS    RESTARTS   AGE    IP           NODE                NOMINATED NODE   READINESS GATES
+pod/drawing-review-77bb6c55dd-75442   1/1     Running   0          2m3s   10.244.0.7   drw-control-plane   <none>           <none>
+pod/drawing-review-eval-dm8cz         0/1     Error     0          2m3s   10.244.0.5   drw-control-plane   <none>           <none>
+
+NAME                     TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE    SELECTOR
+service/drawing-review   ClusterIP   10.96.55.152   <none>        80/TCP    2m3s   app.kubernetes.io/component=api,app.kubernetes.io/name=drawing-review
+
+=== deploy conditions ===
+[{"lastTransitionTime":"2026-11-04T23:58:53Z","lastUpdateTime":"2026-11-04T23:58:53Z","message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"},{"lastTransitionTime":"2026-11-04T23:58:38Z","lastUpdateTime":"2026-11-04T23:58:53Z","message":"ReplicaSet \"drawing-review-77bb6c55dd\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"}]
+
+=== eval job (failed; packaging gap) ===
+NAME                  STATUS   COMPLETIONS   DURATION   AGE    CONTAINERS   IMAGES               SELECTOR
+drawing-review-eval   Failed   0/1           2m3s       2m3s   eval         drawing-review:dev   batch.kubernetes.io/controller-uid=4f999fec-a42f-46de-8e3e-1c726ca5db8c
+Traceback (most recent call last):
+  File "/opt/venv/bin/drawing-review", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/drawing_review/cli.py", line 57, in main
+    report = evaluate(args.data, settings, runs_dir=args.runs_dir)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/drawing_review/evaluation/harness.py", line 126, in evaluate
+    report["gates"] = apply_gates(report, yaml.safe_load(gates_path.read_text()))
+                                                         ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/opt/venv/lib/python3.11/site-packages/drawing_review/evaluation/gates.yaml'
