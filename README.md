@@ -34,7 +34,7 @@ manifests on a laptop with no GPU. YOLO, Tesseract or a LLaVA model on vLLM
 | Autoscaling | Honesty note + HPA stub (unmeasured) — [`docs/autoscaling.md`](docs/autoscaling.md) |
 | Training | PyTorchJob YAML for Training Operator |
 | Rollback | `scripts/demo_rollback.sh` + `docs/rollback.md` (needs live apply; evidence under `docs/evidence/`) |
-| Governance | Model / data cards + risk register (`docs/model-card.md`, `docs/data-card.md`, `docs/risk-register.md`); AI Act–style checklist (`docs/ai-act-mapping.md`) — engineering artefacts, not a conformity claim |
+| Governance | Model / data cards + risk register (`docs/model-card.md`, `docs/data-card.md`, `docs/risk-register.md`); AI Act–style checklist (`docs/ai-act-mapping.md`); digest ≠ signature ≠ approval ([`checklists/release-approval.md`](checklists/release-approval.md)) — engineering artefacts, not a conformity claim |
 
 
 ## Integrator signals (what this repo is for)
