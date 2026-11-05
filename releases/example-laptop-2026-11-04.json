@@ -5,10 +5,15 @@
   "created_at": "2026-11-04T19:00:00-08:00",
   "artefacts": {
     "image": {
-      "ref": "drawing-review:dev",
+      "ref": "ghcr.io/lyftium/drawing-review-service@sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad",
       "digest": "sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad",
+      "tags": [
+        "dev",
+        "0.1.0"
+      ],
       "dockerfile": "Dockerfile",
-      "runs_as_uid": 10001
+      "runs_as_uid": 10001,
+      "actions_run": "https://github.com/lyftium/drawing-review-service/actions/runs/41944936644"
     },
     "model": {
       "id": "stub-backends",
@@ -25,8 +30,11 @@
     "result": "pass"
   },
   "limits": {
-    "live_cluster_apply": false,
-    "ci_enabled": false,
-    "notes": "CPU stubs only. Image digest null until GHCR push. CI workflow written under ci/ not enabled (needs workflow OAuth scope)."
+    "live_gpu_cluster_apply": false,
+    "kind_apply": true,
+    "kind_evidence": "docs/evidence/kind-apply/",
+    "ci_enabled": true,
+    "ghcr_digest_recorded": true,
+    "notes": "CPU stubs on Kind. GHCR digest verified via docker pull RepoDigests. No live GPU OpenShift apply."
   }
 }
