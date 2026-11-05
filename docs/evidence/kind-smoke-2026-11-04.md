@@ -12,3 +12,6 @@ Environment: macOS Colima (vz) + Kind cluster `drw`. Hub/GHCR pulls via host Pri
 | GHCR push / registry digest | **OK** via Actions — `sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad` (RepoDigests verified) |
 
 Transcripts under [`kind-apply/`](kind-apply/).
+
+| Rollback demo | **OK** — `kubectl rollout undo` after annotation bump; image tag unchanged (`drawing-review:dev`); `/readyz` + `/healthz` OK — [rollback-20261104-183013.txt](kind-apply/rollback-20261104-183013.txt) |
+
