@@ -1,0 +1,69 @@
+# Kind rollback evidence
+recorded_at: 2026-11-04 18:30:13 PST
+context: kind-drw
+
+== history before trigger ==
+deployment.apps/drawing-review 
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+
+
+== create new revision (annotation bump) ==
+deployment.apps/drawing-review patched
+deployment.apps/drawing-review patched (no change)
+Waiting for deployment "drawing-review" rollout to finish: 0 out of 1 new replicas have been updated...
+Waiting for deployment "drawing-review" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "drawing-review" rollout to finish: 1 old replicas are pending termination...
+deployment "drawing-review" successfully rolled out
+
+== history after new revision ==
+deployment.apps/drawing-review 
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+3         <none>
+
+
+== before ==
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE    CONTAINERS   IMAGES               SELECTOR
+drawing-review   1/1     1            1           151m   api          drawing-review:dev   app.kubernetes.io/component=api,app.kubernetes.io/name=drawing-review
+image: drawing-review:dev
+deployment.apps/drawing-review 
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+3         <none>
+
+== undo ==
+deployment.apps/drawing-review rolled back
+Waiting for deployment spec update to be observed...
+Waiting for deployment "drawing-review" rollout to finish: 0 out of 1 new replicas have been updated...
+Waiting for deployment "drawing-review" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "drawing-review" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "drawing-review" rollout to finish: 1 old replicas are pending termination...
+deployment "drawing-review" successfully rolled out
+== after ==
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE    CONTAINERS   IMAGES               SELECTOR
+drawing-review   1/1     1            1           152m   api          drawing-review:dev   app.kubernetes.io/component=api,app.kubernetes.io/name=drawing-review
+image: drawing-review:dev
+NOTE: image unchanged — only one revision may exist, or undo targeted the same image.
+
+Next (do not skip):
+  1. Smoke: curl the Service /healthz and /readyz
+  2. Re-run eval / gates before reopening any Route
+  3. Optionally save this terminal output under docs/evidence/kind-apply/rollback-$(date -u +%Y%m%dT%H%M%SZ).txt
+
+== smoke ==
+NAME                              READY   STATUS        RESTARTS   AGE    IP            NODE                NOMINATED NODE   READINESS GATES
+drawing-review-78b7598b9-smc2j    1/1     Terminating   0          24s    10.244.0.10   drw-control-plane   <none>           <none>
+drawing-review-7b4c65f5b8-xs9b6   1/1     Running       0          12s    10.244.0.11   drw-control-plane   <none>           <none>
+drawing-review-eval-4cwkn         0/1     Completed     0          148m   10.244.0.9    drw-control-plane   <none>           <none>
+error: unable to upgrade connection: container not found ("api")
+error: unable to upgrade connection: container not found ("api")
+
+== smoke after stabilize ==
+pod=drawing-review-7b4c65f5b8-xs9b6
+readyz {"status":"ready","backends":{"detector":"stub-detector/1","ocr":"stub-ocr/1","interpreter":"rules-interpreter/1"}}
+healthz ok
+[{"lastTransitionTime":"2026-11-04T23:58:53Z","lastUpdateTime":"2026-11-04T23:58:53Z","message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"},{"lastTransitionTime":"2026-11-04T23:58:38Z","lastUpdateTime":"2026-11-05T02:30:38Z","message":"ReplicaSet \"drawing-review-7b4c65f5b8\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"}]
