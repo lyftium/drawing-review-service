@@ -17,9 +17,9 @@ manifests on a laptop with no GPU. YOLO, Tesseract or a LLaVA model on vLLM
 |:--|:--|
 | **Problem** | A drawing-review prototype that only runs locally cannot be shared, scored or prepared for a cluster. |
 | **90s path** | `make install && make test` → `make eval` → `make validate` → skim [`docs/evidence/RELEASE-PACK.md`](docs/evidence/RELEASE-PACK.md) |
-| **Verify** | 57 CPU tests · golden eval · kubeconform on kind/gpu/OpenShift AI overlays ([evidence](docs/evidence/kubeconform-2026-11-04.md)) · rollback script needs live apply |
+| **Verify** | 57 CPU tests · golden eval · kubeconform · Kind Ready evidence · GHCR digest · rollback script needs live GPU/cluster undo transcript |
 | **CI** | ![CI](https://github.com/lyftium/drawing-review-service/actions/workflows/ci.yml/badge.svg) — workflow live under [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
-| **Status & limits** | Manifests **schema-validated**; **not applied** to a live GPU cluster. CI **enabled** on `main` (see badge). |
+| **Status & limits** | Kind **Ready 1/1** + eval Complete ([`docs/evidence/kind-apply/`](docs/evidence/kind-apply/)). GPU OpenShift **not** applied live. CI **enabled**. GHCR `sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad` ([`docs/image-digests.md`](docs/image-digests.md)). |
 | **Next** | Apply `deploy/openshift-ai` on a shared GPU project; measure TTFT against a real InferenceService. |
 
 ## At a glance
@@ -35,6 +35,11 @@ manifests on a laptop with no GPU. YOLO, Tesseract or a LLaVA model on vLLM
 | Training | PyTorchJob YAML for Training Operator |
 | Rollback | `scripts/demo_rollback.sh` + `docs/rollback.md` (needs live apply; evidence under `docs/evidence/`) |
 | Governance | Model / data cards + risk register (`docs/model-card.md`, `docs/data-card.md`, `docs/risk-register.md`); AI Act–style checklist (`docs/ai-act-mapping.md`) — engineering artefacts, not a conformity claim |
+
+
+## Integrator signals (what this repo is for)
+
+Built so an integration interview can stay concrete: **contracts** (API + gates), **cluster prep** (kustomize overlays, NetworkPolicy, non-root UID 10001, OpenShift SCC notes), **Pending-first diagnosis** ([`docs/runbook.md`](docs/runbook.md)), **release identity** (commit ↔ image digest ↔ eval), and **honest limits** (stubs by default; GPU OpenShift apply not claimed).
 
 ## Architecture
 
@@ -193,7 +198,7 @@ the rules engine, the evaluation harness and gates, lineage, metrics, the benchm
 script, the Docker image, and Kubernetes manifests that build with kustomize
 (`make validate` adds `kubeconform`). The CI workflow is written
 (`ci/github-actions-ci.yml`: lint, tests, evaluation gates, manifest validation
-including the OpenShift overlay, image build with a smoke test) but not enabled on
+including the OpenShift overlay, image build + GHCR push on `main`) and is enabled on
 this repository yet.
 
 **OpenShift overlay (implemented)**: `deploy/openshift/` adds a TLS Route, an
@@ -226,4 +231,4 @@ MIT
 
 ## Laptop smoke
 
-Latest local pytest evidence: [`docs/evidence/laptop-smoke-2026-11-04.md`](docs/evidence/laptop-smoke-2026-11-04.md) (57 passed). Docker/Kind apply still blocked without registry access.
+Pytest: [`docs/evidence/laptop-smoke-2026-11-04.md`](docs/evidence/laptop-smoke-2026-11-04.md) (57 passed). Kind Ready + eval: [`docs/evidence/kind-smoke-2026-11-04.md`](docs/evidence/kind-smoke-2026-11-04.md). Digests: [`docs/image-digests.md`](docs/image-digests.md).
