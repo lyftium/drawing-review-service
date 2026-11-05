@@ -1,6 +1,6 @@
 # Rollback procedure (drawing-review)
 
-**Status.** Procedure + script for a kind / cluster demo. A captured undo transcript is committed under `docs/evidence/` **only when** a live apply has been run; until then this document is the contract, not a claim that undo was executed here.
+**Status.** Kind undo transcript: [`docs/evidence/kind-apply/rollback-20261104-183013.txt`](evidence/kind-apply/rollback-20261104-183013.txt) (2026-11-04 America/Los_Angeles). Image tag unchanged (`drawing-review:dev`); ReplicaSet rolled back; `/readyz` OK after stabilize.
 
 ## What we roll back
 
