@@ -125,7 +125,7 @@ DRW_STUB_CHAR_ERROR_RATE=0.03 DRW_STUB_DROP_RATE=0.05 DRW_STUB_JITTER_PX=4 \
 | ✅ | Stable interface: pydantic schemas, structured errors (413/415/422/503) with request id | `schemas.py`, `api.py` |
 | ✅ | Pluggable backends, CPU stubs so tests run without weights | `backends/` |
 | ✅ | Unit + integration tests (57), lint config | `tests/` |
-| 📝 | CI pipeline (lint, tests, eval gates, manifest validation, image smoke test) written, not yet enabled | `ci/github-actions-ci.yml` |
+| 📝 | CI pipeline live on `main` (lint, tests, eval gates, manifests, image smoke, GHCR push) | `.github/workflows/ci.yml` |
 | ✅ | Evaluation harness with release gates, extraction vs business | `evaluation/` |
 | ✅ | Lineage: git sha, backend versions, config hash, dataset hash per result and per run | `lineage.py` |
 | ✅ | Pinned dependencies, multi-stage image, non-root user | `requirements.lock`, `Dockerfile` |
@@ -212,7 +212,7 @@ engineering mapping (checklist, not a legal claim):
 
 **Written but not exercised here**: the YOLO, Tesseract and LLaVA/vLLM backends (no
 weights in a public repo), `Dockerfile.gpu`, the GPU overlay and the vLLM manifest.
-They are written against the documented APIs, but I have not run these exact files
+They are written against the documented APIs; Kind Ready evidence exists, but I have not run these exact files on a shared GPU OpenShift project
 on a multi-GPU cluster.
 
 **Distributed training:** DDP is implemented and run with `torchrun` in
