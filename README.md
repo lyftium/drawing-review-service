@@ -2,28 +2,28 @@
 
 ![CI](https://github.com/lyftium/drawing-review-service/actions/workflows/ci.yml/badge.svg)
 
-Turn a local drawing-analysis prototype into something another engineer can call, score, and prepare for a cluster.
+A local drawing-analysis prototype is hard to share, score, or prepare for a cluster. This repo rebuilds that shape as a public microservice: **detect → OCR → vision–language model → rule checks → human review**.
 
-Public demonstrator of an engineering-document pipeline: **detect → OCR → vision–language model → rule checks → human review**. No company or customer code, models, or drawings — reference images are synthetic (`drawing-review golden`). Default backends are CPU stubs so the API, tests, eval, and manifests run on a laptop. YOLO, Tesseract, or a LLaVA model on vLLM / KServe is a config change.
+No company or customer code, models, or drawings — reference images are synthetic (`drawing-review golden`). Default backends are CPU stubs so the API, tests, eval, and manifests run on a laptop. YOLO, Tesseract, or a LLaVA model on vLLM / KServe is a configuration change.
 
-| | |
-|:--|:--|
-| **90 s path** | [`docs/DEMO.md`](docs/DEMO.md) · `make test` → `make eval` → `make validate` → Kind evidence / digests |
-| **Stack** | FastAPI · Docker · Kubernetes / OpenShift overlays · KServe ServingRuntime + InferenceService · Prometheus |
-| **Proven here** | 57 CPU tests · golden gates · Kind Ready 1/1 + rollback · GHCR `sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad` ([digests](docs/image-digests.md)) |
-| **Not claimed** | Live GPU OpenShift apply · real InferenceService TTFT |
+> **Start here:** [`docs/DEMO.md`](docs/DEMO.md) · `make test` → `make eval` → `make validate` → Kind evidence / digests  
+> **Stack:** FastAPI · Docker · Kubernetes / OpenShift overlays · KServe · Prometheus  
+> **Proven:** 57 CPU tests · golden gates · Kind Ready 1/1 + rollback · GHCR `sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad` ([digests](docs/image-digests.md))  
+> **Not claimed:** live GPU OpenShift apply · real InferenceService TTFT
 
-## What’s in the box
+[What’s here](#whats-here) · [Architecture](#architecture) · [Evaluation](#why-evaluation-is-split-in-two) · [Run](#run) · [Status](#status)
+
+## What’s here
 
 | Area | Artefact |
 |:--|:--|
-| Service | FastAPI, pydantic schemas, structured 413/415/422/503, health ≠ readiness |
+| Service | FastAPI, pydantic schemas, structured 413 / 415 / 422 / 503, health ≠ readiness |
 | Packaging | Multi-stage non-root image (UID 10001), read-only root |
 | Cluster | kustomize overlays, NetworkPolicy, OpenShift Route / SCC notes |
 | Inference prep | KServe `ServingRuntime` + `InferenceService` (RawDeployment); standalone vLLM Deployment |
 | Quality | Golden set, extraction vs business gates, per-run lineage |
-| Ops notes | Pending-first [runbook](docs/runbook.md), [observability](docs/observability.md), HPA stub ([autoscaling](docs/autoscaling.md) — unmeasured) |
-| Governance | Model / data cards, risk register, AI Act–style checklist ([`docs/ai-act-mapping.md`](docs/ai-act-mapping.md)), digest ≠ signature ≠ approval ([checklist](checklists/release-approval.md)) — engineering artefacts, not a conformity claim |
+| Ops | Pending-first [runbook](docs/runbook.md), [observability](docs/observability.md), HPA stub ([autoscaling](docs/autoscaling.md) — unmeasured) |
+| Governance | Model / data cards, risk register, AI Act–style checklist ([mapping](docs/ai-act-mapping.md)), digest ≠ signature ≠ approval ([checklist](checklists/release-approval.md)) — engineering artefacts, not a conformity claim |
 
 ## Architecture
 
@@ -60,7 +60,7 @@ flowchart LR
 
 ## Why evaluation is split in two
 
-Recognising a symbol is not the same as the drawing being correct:
+Recognising a symbol is not the same as the drawing being correct.
 
 - **Extraction** — detection P/R at IoU 0.5, OCR CER, field accuracy.
 - **Business correctness** — did the review raise the defects that were there, and stay quiet on clean drawings?
@@ -83,7 +83,7 @@ DRW_STUB_CHAR_ERROR_RATE=0.03 DRW_STUB_DROP_RATE=0.05 DRW_STUB_JITTER_PX=4 \
   drawing-review eval --data golden
 ```
 
-## Run it
+## Run
 
 ```bash
 python -m venv .venv && . .venv/bin/activate
@@ -110,12 +110,10 @@ Real models need a GPU node, the NVIDIA device plugin, and weights on `model-wei
 
 ## Status
 
-**In this repo and tested:** pipeline, API, stubs, rules, eval gates, lineage, metrics, Docker image, kustomize manifests, Kind Ready + eval Job Complete ([`docs/evidence/kind-apply/`](docs/evidence/kind-apply/)), CI on `main` (lint, tests, eval, manifests, image smoke, GHCR push).
+**Tested in this repo:** pipeline, API, stubs, rules, eval gates, lineage, metrics, Docker image, kustomize manifests, Kind Ready + eval Job Complete ([evidence](docs/evidence/kind-apply/)), CI on `main` (lint, tests, eval, manifests, image smoke, GHCR push).
 
 **Written, not exercised on a shared GPU project:** YOLO / Tesseract / LLaVA backends (no public weights), GPU overlay, vLLM Deployment, OpenShift AI InferenceService apply.
 
-**Next door:** DDP train loop in [lora-finetune-recipe](https://github.com/lyftium/lora-finetune-recipe); this repo holds the `PyTorchJob` YAML. Gateway design notes in [`docs/gateway.md`](docs/gateway.md); live gateway + agent in [agent-gateway-stack](https://github.com/lyftium/agent-gateway-stack). Measured serving levers in [vllm-serving-benchmark-t4](https://github.com/lyftium/vllm-serving-benchmark-t4).
+**Next door:** DDP train loop in [lora-finetune-recipe](https://github.com/lyftium/lora-finetune-recipe) (this repo holds the `PyTorchJob` YAML); gateway + agent in [agent-gateway-stack](https://github.com/lyftium/agent-gateway-stack); measured serving levers in [vllm-serving-benchmark-t4](https://github.com/lyftium/vllm-serving-benchmark-t4). Gateway design notes: [`docs/gateway.md`](docs/gateway.md).
 
-MIT
-
-Laptop smoke: [`docs/evidence/laptop-smoke-2026-11-04.md`](docs/evidence/laptop-smoke-2026-11-04.md) · Kind: [`docs/evidence/kind-smoke-2026-11-04.md`](docs/evidence/kind-smoke-2026-11-04.md) · Digests: [`docs/image-digests.md`](docs/image-digests.md).
+MIT · [laptop smoke](docs/evidence/laptop-smoke-2026-11-04.md) · [Kind smoke](docs/evidence/kind-smoke-2026-11-04.md) · [digests](docs/image-digests.md)
