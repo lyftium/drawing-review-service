@@ -15,7 +15,7 @@
 ## Provenance and rights
 
 - Labels and images authored for this demo (or clearly marked fixtures).
-- Not derived from proprietary aerospace programmes in this public tree.
+- Not derived from private customer programmes in this public tree.
 - If a private programme set is used later: keep it offline, document licence / DUA, and never push binaries or OCR text to GitHub.
 
 ## Collection and labelling
