@@ -54,8 +54,8 @@ Pipeline ends in reviewer artefacts (`reviewer_decision`). Disagreement becomes 
 
 ## Environmental / compute note
 
-Inference cost and GPU memory are measured separately in [vllm-serving-benchmark-t4](https://github.com/lyftium/vllm-serving-benchmark-t4); this card makes no hardware SLO claims.
+Inference cost and GPU memory are measured elsewhere (e.g. [vllm-serving-benchmark-t4](https://github.com/lyftium/vllm-serving-benchmark-t4)); this card does not invent hardware SLOs for a production cluster.
 
 ## Change control
 
-Image tagged with git SHA; RollingUpdate with `maxUnavailable: 0` pattern; rollback via previous image / PVC weights. Formal AI Act classification is organisational — see `docs/ai-act-mapping.md` and `docs/risk-register.md`.
+Image tagged with git SHA; RollingUpdate with `maxUnavailable: 0` pattern; rollback via previous image / PVC weights. Formal classification of the system is organisational — see `docs/risk-register.md`.
