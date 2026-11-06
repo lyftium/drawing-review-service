@@ -7,7 +7,7 @@
 
 | Field | Value |
 |---|---|
-| Name | Public golden / reference set under `evaluation/` |
+| Name | Public golden / reference set under `golden/` |
 | Purpose | Software gates + extraction metrics before release |
 | Sensitivity | Synthetic; no customer IP, no export-controlled drawings |
 | Versioning | Content hash recorded as `dataset_hash` in eval run JSON |
