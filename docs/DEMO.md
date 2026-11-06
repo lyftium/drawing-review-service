@@ -32,5 +32,5 @@ Evidence from a prior run: [`docs/evidence/kind-apply/`](evidence/kind-apply/). 
 ## Limitations
 
 - Default path uses CPU stubs and synthetic drawings
-- OpenShift AI / KServe manifests are prepared and schema-checked; **not** applied on a live GPU cluster
+- No GPU-backed deployment or real-model quality is demonstrated by these manifests
 - Kind Ready ≠ production hardening
