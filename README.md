@@ -2,27 +2,26 @@
 
 ![CI](https://github.com/lyftium/drawing-review-service/actions/workflows/ci.yml/badge.svg)
 
-FastAPI microservice for drawing review: contracts, golden eval gates, Docker, Kind Ready, GHCR digest recorded.
+I rebuilt a drawing-review pipeline as something another engineer can actually call and score: FastAPI contracts, golden eval gates, a non-root image, Kind Ready with a rollback transcript, and a GHCR digest on file.
 
-Runs on CPU stubs today (synthetic `drawing-review golden`). YOLO / OCR / VLM and OpenShift / KServe paths are in-repo and schema-validated — **not** applied on a live GPU cluster. No company or customer drawings.
+What runs on a laptop today uses CPU stubs and synthetic drawings (`drawing-review golden`) — no company or customer assets. YOLO / OCR / VLM backends and OpenShift / KServe manifests are in the tree and schema-checked; I have not applied them on a live GPU cluster.
 
-[`docs/DEMO.md`](docs/DEMO.md) · `make test` · `make eval` · Kind evidence under [`docs/evidence/`](docs/evidence/) · digest in [`docs/image-digests.md`](docs/image-digests.md)
+[`docs/DEMO.md`](docs/DEMO.md) · `make test` · `make eval` · [`docs/evidence/`](docs/evidence/) · [`docs/image-digests.md`](docs/image-digests.md)
 
-[What’s here](#whats-here) · [Architecture](#architecture) · [Evaluation](#why-evaluation-is-split-in-two) · [Run](#run) · [Status](#status)
+[What’s in the repo](#whats-in-the-repo) · [Architecture](#architecture) · [Evaluation](#why-evaluation-is-split-in-two) · [Run](#run) · [Status](#status)
 
-## What’s here
+## What’s in the repo
 
-| Area | Artefact |
+When backends are wired the path is detect → OCR → VLM → rules → human review. Stubs keep that path testable without weights.
+
+| | |
 |:--|:--|
-| Service | FastAPI, pydantic schemas, structured 413 / 415 / 422 / 503, health ≠ readiness |
-| Packaging | Multi-stage non-root image (UID 10001), read-only root |
-| Cluster | kustomize overlays, NetworkPolicy, OpenShift Route / SCC notes |
-| Inference prep | KServe `ServingRuntime` + `InferenceService` (RawDeployment); standalone vLLM Deployment |
+| Service | FastAPI, pydantic schemas, structured errors, health ≠ readiness |
+| Image | Multi-stage, non-root (UID 10001), read-only root |
+| Cluster prep | kustomize, NetworkPolicy, OpenShift Route / SCC notes, KServe `ServingRuntime` + `InferenceService` |
 | Quality | Golden set, extraction vs business gates, per-run lineage |
-| Ops | Pending-first [runbook](docs/runbook.md), [observability](docs/observability.md), HPA stub ([autoscaling](docs/autoscaling.md) — unmeasured) |
-| Release hygiene | Model / data cards, risk register, internal release checklist ([`docs/ai-act-mapping.md`](docs/ai-act-mapping.md) — engineering notes, not a conformity claim), digest ≠ signature ≠ approval ([checklist](checklists/release-approval.md)) |
-
-Pipeline shape when backends are wired: detect → OCR → VLM → rules → human review. Stubs keep the path testable without weights.
+| Ops notes | Pending-first [runbook](docs/runbook.md), [observability](docs/observability.md), HPA stub (unmeasured) |
+| Release hygiene | Cards / risk register / internal checklist ([`docs/ai-act-mapping.md`](docs/ai-act-mapping.md) — engineering notes, not a conformity claim) · [digest ≠ approval](checklists/release-approval.md) |
 
 ## Architecture
 
