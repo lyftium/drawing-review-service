@@ -54,7 +54,7 @@ Pipeline ends in reviewer artefacts (`reviewer_decision`). Disagreement becomes 
 
 ## Environmental / compute note
 
-Inference cost and GPU memory are measured elsewhere (e.g. [vllm-serving-benchmark-t4](https://github.com/lyftium/vllm-serving-benchmark-t4)); this card does not invent hardware SLOs for Safran clusters.
+Inference cost and GPU memory are measured separately in [vllm-serving-benchmark-t4](https://github.com/lyftium/vllm-serving-benchmark-t4); this card makes no hardware SLO claims.
 
 ## Change control
 
