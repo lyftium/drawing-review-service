@@ -1,14 +1,12 @@
-# Drawing Review Service — from prototype to testable microservice
+# Drawing review service
 
 ![CI](https://github.com/lyftium/drawing-review-service/actions/workflows/ci.yml/badge.svg)
 
-| | |
-|---|---|
-| **Problem** | A drawing-analysis prototype that only runs locally cannot be shared, scored, or prepared for a cluster. |
-| **Verify** | [`docs/DEMO.md`](docs/DEMO.md) · `make test` / `make eval` · Kind Ready + rollback under [`docs/evidence/`](docs/evidence/) · digest in [`docs/image-digests.md`](docs/image-digests.md) |
-| **Status** | FastAPI contracts, golden gates, non-root image, GHCR digest on file. Laptop path uses CPU stubs + synthetic drawings — no customer assets. OpenShift / KServe YAML schema-checked; **not** applied on a live GPU cluster. |
+A drawing-review pipeline that only runs on one laptop is hard to hand to someone else. I turned that shape into a FastAPI service: typed requests and errors, a golden-set check, and a container that runs as a non-root user.
 
-Public rebuild of detect → OCR → VLM → rules → human review, with stubs so another engineer can call and score it without weights.
+CPU stubs stand in for detection, OCR, and the vision-language model, so `make test` and `make eval` do not download weights. I applied the manifests on a local Kind cluster and recorded a rollback. OpenShift AI / KServe YAML is in `deploy/` and schema-checked; I have not applied it on a live GPU cluster.
+
+Synthetic drawings only — no customer files. Walkthrough: [`docs/DEMO.md`](docs/DEMO.md). Image digest notes: [`docs/image-digests.md`](docs/image-digests.md).
 
 [What’s in the repo](#whats-in-the-repo) · [Architecture](#architecture) · [Evaluation](#why-evaluation-is-split-in-two) · [Run](#run) · [Status](#status)
 
