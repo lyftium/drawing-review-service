@@ -1,5 +1,5 @@
 # CI workflow
 
-The live workflow is [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). It is enabled on `main`.
+The enabled workflow is [`.github/workflows/ci.yml`](../.github/workflows/ci.yml); [`ci/github-actions-ci.yml`](github-actions-ci.yml) is a copy of its source template.
 
-It runs lint, tests, evaluation gates, manifest validation (Kind + GPU overlays, vLLM manifests, and the OpenShift kustomize overlay with `kubeconform -ignore-missing-schemas`), and an image build with a smoke test. A green run covers that scope. It does not apply the service on a GPU cluster.
+CI runs lint, CPU unit/integration tests, the synthetic evaluation gates, manifest validation, an image build and smoke test, and a GHCR publish on the appropriate branch events. See the workflow for exact triggers and jobs. These checks exercise stubs and packaging; they do not download model weights or run GPU-backed inference.
