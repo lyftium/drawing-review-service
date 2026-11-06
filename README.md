@@ -2,13 +2,11 @@
 
 ![CI](https://github.com/lyftium/drawing-review-service/actions/workflows/ci.yml/badge.svg)
 
-A local drawing-analysis prototype is hard to share, score, or prepare for a cluster. This repo rebuilds that shape as a public microservice: **detect → OCR → vision–language model → rule checks → human review**.
+FastAPI microservice for drawing review: contracts, golden eval gates, Docker, Kind Ready, GHCR digest recorded.
 
-No company or customer code, models, or drawings — reference images are synthetic (`drawing-review golden`). Default backends are CPU stubs so the API, tests, eval, and manifests run on a laptop. YOLO, Tesseract, or a LLaVA model on vLLM / KServe is a configuration change.
+Runs on CPU stubs today (synthetic `drawing-review golden`). YOLO / OCR / VLM and OpenShift / KServe paths are in-repo and schema-validated — **not** applied on a live GPU cluster. No company or customer drawings.
 
-**Start here:** [`docs/DEMO.md`](docs/DEMO.md) — then `make test` → `make eval` → `make validate`, and the Kind / digest evidence under `docs/`.
-
-Built with FastAPI, Docker, Kubernetes / OpenShift overlays, KServe, and Prometheus. Proven on this laptop and Kind: 57 CPU tests, golden gates, Ready 1/1 + rollback, GHCR digest in [`docs/image-digests.md`](docs/image-digests.md). Not claimed: live GPU OpenShift apply, or TTFT against a real InferenceService.
+[`docs/DEMO.md`](docs/DEMO.md) · `make test` · `make eval` · Kind evidence under [`docs/evidence/`](docs/evidence/) · digest in [`docs/image-digests.md`](docs/image-digests.md)
 
 [What’s here](#whats-here) · [Architecture](#architecture) · [Evaluation](#why-evaluation-is-split-in-two) · [Run](#run) · [Status](#status)
 
@@ -22,7 +20,9 @@ Built with FastAPI, Docker, Kubernetes / OpenShift overlays, KServe, and Prometh
 | Inference prep | KServe `ServingRuntime` + `InferenceService` (RawDeployment); standalone vLLM Deployment |
 | Quality | Golden set, extraction vs business gates, per-run lineage |
 | Ops | Pending-first [runbook](docs/runbook.md), [observability](docs/observability.md), HPA stub ([autoscaling](docs/autoscaling.md) — unmeasured) |
-| Governance | Model / data cards, risk register, AI Act–style checklist ([mapping](docs/ai-act-mapping.md)), digest ≠ signature ≠ approval ([checklist](checklists/release-approval.md)) — engineering artefacts, not a conformity claim |
+| Release hygiene | Model / data cards, risk register, internal release checklist ([`docs/ai-act-mapping.md`](docs/ai-act-mapping.md) — engineering notes, not a conformity claim), digest ≠ signature ≠ approval ([checklist](checklists/release-approval.md)) |
+
+Pipeline shape when backends are wired: detect → OCR → VLM → rules → human review. Stubs keep the path testable without weights.
 
 ## Architecture
 
@@ -74,7 +74,7 @@ The synthetic generator seeds known defects independently of the rules code. Stu
 | false alarms on clean drawings | 0.00 | 0.75 |
 | release gate | pass | **fail** |
 
-These numbers describe the **harness on synthetic data**, not any model. Extraction can look fine while business gates fail — a misread datum letter turns a clean drawing into a false alarm.
+**Stub harness only** — not detector / OCR / VLM model quality. Extraction can look fine while business gates fail (a misread datum letter turns a clean drawing into a false alarm).
 
 ```bash
 drawing-review eval --data golden
