@@ -12,4 +12,4 @@ GPU serving scale-out has **stages**. This demo does **not** claim measured read
 
 CPU default HPA is the **wrong** signal for a GPU InferenceService (see `docs/kserve.md`). Prefer queue-depth / KV pressure when you wire KEDA — still mark it unmeasured until timed on a real cluster.
 
-Stub for interview structure only: [`deploy/k8s/base/hpa-stub.yaml`](../deploy/k8s/base/hpa-stub.yaml) — **not** applied, **not** timed.
+Unmeasured stub: [`deploy/k8s/base/hpa-stub.yaml`](../deploy/k8s/base/hpa-stub.yaml) — **not** applied, **not** timed.
