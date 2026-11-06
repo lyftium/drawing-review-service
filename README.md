@@ -4,7 +4,7 @@
 
 A drawing-review pipeline that only runs on one laptop is hard to hand to someone else. I turned that shape into a FastAPI service: typed requests and errors, a golden-set check, and a container that runs as a non-root user.
 
-CPU stubs stand in for detection, OCR, and the vision-language model, so `make test` and `make eval` do not download weights. I applied the manifests on a local Kind cluster and recorded a rollback. OpenShift AI / KServe YAML is in `deploy/` and schema-checked; I have not applied it on a live GPU cluster.
+CPU stubs stand in for detection, OCR, and the vision-language model, so `make test` and `make eval` do not download weights. I applied the Kubernetes manifests on a local Kind cluster and recorded a rollback.
 
 Synthetic drawings only — no customer files. Walkthrough: [`docs/DEMO.md`](docs/DEMO.md). Image digest notes: [`docs/image-digests.md`](docs/image-digests.md).
 
@@ -104,7 +104,7 @@ kubectl -n drawing-review port-forward svc/drawing-review 8080:80
 make validate         # kustomize + kubeconform, no cluster needed
 ```
 
-Real models need a GPU node, the NVIDIA device plugin, and weights on `model-weights`. OpenShift AI path: [`docs/kserve.md`](docs/kserve.md) — schema-validated, **not** applied live here.
+Real models need a GPU node, the NVIDIA device plugin, and weights on `model-weights`. The optional model-serving manifests are in [`deploy/`](deploy/); this repository has no recorded GPU-backed deployment.
 
 ## Status
 
