@@ -19,7 +19,7 @@
 |---|---|---|
 | Heuristic / CV extractors | Deterministic baselines for dimensions / title-block style fields | Code in this repository |
 | Optional LLM via gateway | Natural-language rationale / OCR-assist when configured | Weights **not** shipped; called through `ai-gateway` / vLLM manifests |
-| Golden-set labels | Synthetic reference for gates | `evaluation/` data + hashes |
+| Golden-set labels | Synthetic reference for gates | `golden/` data + hashes |
 
 Pin revisions in deploy config and record them in every `lineage` payload (`git_sha`, backend `version`, `config_hash`).
 
@@ -44,7 +44,7 @@ Pin revisions in deploy config and record them in every `lineage` payload (`git_
 
 ## Human oversight
 
-Pipeline ends in reviewer artefacts (`reviewer_decision`). Disagreement becomes a labelled case, not only a ticket. See `docs/mlops.md`.
+Pipeline ends in reviewer artefacts (`reviewer_decision`). Disagreement becomes a labelled case, not only a ticket. See [`docs/mlops.md`](mlops.md).
 
 ## Security and logging
 
@@ -54,8 +54,8 @@ Pipeline ends in reviewer artefacts (`reviewer_decision`). Disagreement becomes 
 
 ## Environmental / compute note
 
-Inference cost and GPU memory are measured elsewhere (e.g. [vllm-serving-benchmark-t4](https://github.com/lyftium/vllm-serving-benchmark-t4)); this card does not invent hardware SLOs for a production cluster.
+Inference cost and GPU memory are measured separately in [vllm-serving-benchmark-t4](https://github.com/lyftium/vllm-serving-benchmark-t4); this card makes no hardware SLO claims.
 
 ## Change control
 
-Image tagged with git SHA; RollingUpdate with `maxUnavailable: 0` pattern; rollback via previous image / PVC weights. Formal classification of the system is organisational — see `docs/risk-register.md`.
+Image tagged with git SHA; RollingUpdate with `maxUnavailable: 0` pattern; rollback via previous image / PVC weights. Engineering risks and release controls are tracked in [`docs/risk-register.md`](risk-register.md).
