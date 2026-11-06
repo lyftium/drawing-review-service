@@ -7,7 +7,11 @@ Walkthrough for a screener. Stick to artefacts in this repo.
 1. **Question:** how do you turn a local prototype into something callable, scored, and cluster-ready?
 2. Open the README “Start here” block.
 3. Point at CI, [`docs/evidence/kind-apply/`](evidence/kind-apply/), [`docs/image-digests.md`](image-digests.md).
-4. **Limits out loud:** CPU stubs by default; GPU OpenShift not applied live.
+4. **Platform boundary out loud:** OpenShift AI / KServe is the **target shape**; Kind is the **proof harness**. CPU stubs by default; live GPU OpenShift apply and InferenceService TTFT are **not** claimed.
+
+## Platform boundary
+
+Reference path: laptop + Kind (reproduce packaging, gates, digests). Manifests follow OpenShift AI / KServe shapes (`ServingRuntime`, `InferenceService`, OpenShift overlay). **Not claimed here:** production OpenShift AI cluster, GPU Operator, or live GPU InferenceService.
 
 ## 10 minutes
 
