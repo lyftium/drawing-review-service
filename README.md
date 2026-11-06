@@ -6,10 +6,9 @@ A local drawing-analysis prototype is hard to share, score, or prepare for a clu
 
 No company or customer code, models, or drawings — reference images are synthetic (`drawing-review golden`). Default backends are CPU stubs so the API, tests, eval, and manifests run on a laptop. YOLO, Tesseract, or a LLaVA model on vLLM / KServe is a configuration change.
 
-> **Start here:** [`docs/DEMO.md`](docs/DEMO.md) · `make test` → `make eval` → `make validate` → Kind evidence / digests  
-> **Stack:** FastAPI · Docker · Kubernetes / OpenShift overlays · KServe · Prometheus  
-> **Proven:** 57 CPU tests · golden gates · Kind Ready 1/1 + rollback · GHCR `sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad` ([digests](docs/image-digests.md))  
-> **Not claimed:** live GPU OpenShift apply · real InferenceService TTFT
+**Start here:** [`docs/DEMO.md`](docs/DEMO.md) — then `make test` → `make eval` → `make validate`, and the Kind / digest evidence under `docs/`.
+
+Built with FastAPI, Docker, Kubernetes / OpenShift overlays, KServe, and Prometheus. Proven on this laptop and Kind: 57 CPU tests, golden gates, Ready 1/1 + rollback, GHCR digest in [`docs/image-digests.md`](docs/image-digests.md). Not claimed: live GPU OpenShift apply, or TTFT against a real InferenceService.
 
 [What’s here](#whats-here) · [Architecture](#architecture) · [Evaluation](#why-evaluation-is-split-in-two) · [Run](#run) · [Status](#status)
 
