@@ -1,6 +1,6 @@
 # Risk register (demo drawing-review system)
 
-**Status.** Living engineering register for interview / design-review practice.  
+**Status.** Living engineering register for design-review practice.  
 **Not** a conformity assessment or safety case. Owners below are demo roles only.
 
 | ID | Risk | Severity (demo) | Likelihood | Existing control | Residual | Owner | Re-evaluate when |
@@ -14,7 +14,7 @@
 | R7 | Network lateral movement from API pod | Medium | Low with NP | NetworkPolicy sketches; non-root; RO root FS | Medium until live-applied | Platform | First cluster apply |
 | R8 | GPU OOM / latency SLO breach under load | Medium | Medium | Measure before commit; sibling vLLM T4 bench for method | Medium | Integrator | New model size or concurrency |
 | R9 | Prompt injection via drawing text / OCR | Medium | Medium | Tool outputs untrusted; no shell/network tools in this service | Medium | Security | Adding agent tools that mutate state |
-| R10 | Mis-stated regulatory posture (“AI Act compliant”) | High (reputation) | Medium if marketing copy | `ai-act-mapping.md` states checklist only | Low if wording held | Candidate | Any public claim change |
+| R10 | Mis-stated deployment or review posture | High (reputation) | Medium if marketing copy | README and evidence distinguish stubs, schema checks, and local apply | Low if wording held | Candidate | Any public claim change |
 
 ## Qualification stub (fill per deployment — leave blank publicly)
 
@@ -33,4 +33,4 @@
 3. Re-run health + gate eval before reopening traffic.
 4. Capture versions/events without drawing content.
 
-Related: `docs/mlops.md`, `docs/ai-act-mapping.md`, `docs/runbook.md`.
+Related: [`docs/mlops.md`](mlops.md), [`docs/runbook.md`](runbook.md).
