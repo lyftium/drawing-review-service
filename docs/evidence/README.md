@@ -4,15 +4,10 @@
 
 | File | What it proves |
 |---|---|
-| [`RELEASE-PACK.md`](RELEASE-PACK.md) | Screener index: proven vs blocked |
-| [`laptop-smoke-2026-11-04.md`](laptop-smoke-2026-11-04.md) | 57 pytest (DRS) + 48 pytest (AGS) on laptop; Docker/Kind blocked by registry DNS |
-| [`kubeconform-2026-11-04.md`](kubeconform-2026-11-04.md) | `make validate` — kind/gpu/vLLM/OpenShift/OpenShift AI overlays schema-valid (not live-applied) |
+| [`RELEASE-PACK.md`](RELEASE-PACK.md) | Index of what was exercised |
+| [`laptop-smoke-2026-11-04.md`](laptop-smoke-2026-11-04.md) | Laptop pytest on that date. Counts in that note are historical, not a live test total. |
+| [`kubeconform-2026-11-04.md`](kubeconform-2026-11-04.md) | `make validate` — Kind / GPU / vLLM / OpenShift overlays schema-valid (not a live GPU apply) |
+| [`kind-smoke-2026-11-04.md`](kind-smoke-2026-11-04.md) | Local Kind Ready, eval Job, and rollback |
+| [`kind-apply/`](kind-apply/) | Apply, eval, and rollback transcripts |
 
-## After a live apply (not yet)
-
-Place transcripts here after a successful apply (kind or shared cluster):
-
-- `kind-apply/deploy-*.txt` — kubectl apply / rollout status / get pods
-- `kind-apply/rollback-*.txt` — output of `./scripts/demo_rollback.sh`
-
-Do not invent digests, timings, or GPU metrics. Until apply files appear, READMEs correctly say manifests are prepared, not live-applied.
+Schema validation is not a deployment. Do not invent digests, timings, or GPU metrics.
