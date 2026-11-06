@@ -1,9 +1,5 @@
 # CI workflow
 
-`ci/github-actions-ci.yml` is the workflow for this repository. It is not enabled
-yet: to turn it on, copy it to `.github/workflows/ci.yml` (pushing that path needs
-a token with the GitHub `workflow` scope).
+The live workflow is [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). It is enabled on `main`.
 
-It runs lint, tests, evaluation gates, manifest validation (kind + GPU overlays,
-vLLM manifests, and the OpenShift kustomize overlay with
-`kubeconform -ignore-missing-schemas`), and an image build with a smoke test.
+It runs lint, tests, evaluation gates, manifest validation (Kind + GPU overlays, vLLM manifests, and the OpenShift kustomize overlay with `kubeconform -ignore-missing-schemas`), and an image build with a smoke test. A green run covers that scope. It does not apply the service on a GPU cluster.
