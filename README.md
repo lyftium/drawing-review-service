@@ -4,7 +4,7 @@
 
 A drawing-review pipeline that only runs on one laptop is hard to hand to someone else. I turned that shape into a FastAPI service: typed requests and errors, a golden-set check, and a container that runs as a non-root user.
 
-CPU stubs stand in for detection, OCR, and the vision-language model, so `make test` and `make eval` do not download weights. I applied the Kubernetes manifests on a local Kind cluster and recorded a rollback.
+CPU stubs stand in for detection, OCR, and the vision-language model, so `make test` and `make eval` do not download weights. I applied the manifests on a local Kind cluster and recorded a rollback. OpenShift AI / KServe YAML is in `deploy/` and schema-checked; I have not applied it on a live GPU cluster.
 
 Synthetic drawings only — no customer files. Walkthrough: [`docs/DEMO.md`](docs/DEMO.md). Image digest notes: [`docs/image-digests.md`](docs/image-digests.md).
 
@@ -21,7 +21,7 @@ When backends are wired the path is detect → OCR → VLM → rules → human r
 | Cluster prep | kustomize, NetworkPolicy, OpenShift Route / SCC notes, KServe `ServingRuntime` + `InferenceService` |
 | Quality | Golden set, extraction vs business gates, per-run lineage |
 | Ops notes | Pending-first [runbook](docs/runbook.md), [observability](docs/observability.md), HPA stub (unmeasured) |
-| Release hygiene | Cards / risk register / internal checklist ([`docs/ai-act-mapping.md`](docs/ai-act-mapping.md) — engineering notes, not a conformity claim) · [digest ≠ approval](checklists/release-approval.md) |
+| Release hygiene | Model and data cards, risk register, [digest ≠ approval](checklists/release-approval.md) |
 
 ## Architecture
 
@@ -86,12 +86,14 @@ DRW_STUB_CHAR_ERROR_RATE=0.03 DRW_STUB_DROP_RATE=0.05 DRW_STUB_JITTER_PX=4 \
 ```bash
 python -m venv .venv && . .venv/bin/activate
 make install
-make test             # 57 tests, CPU
-make eval
+make test
+make eval             # writes synthetic images under golden/
 drawing-review golden
 uvicorn --factory drawing_review.api:app_factory --port 8080
 curl -F file=@golden/images/syn-001.png localhost:8080/v1/analyze
 ```
+
+`make eval` generates the PNG used in the curl example. Python 3.11+.
 
 Docker / Kind:
 
@@ -101,17 +103,15 @@ docker run --rm -p 8080:8080 --read-only --tmpfs /tmp drawing-review:dev
 
 make kind-up && make deploy-kind
 kubectl -n drawing-review port-forward svc/drawing-review 8080:80
-make validate         # kustomize + kubeconform, no cluster needed
+make validate         # needs kubectl and kubeconform; no cluster required
 ```
 
-Real models need a GPU node, the NVIDIA device plugin, and weights on `model-weights`. The optional model-serving manifests are in [`deploy/`](deploy/); this repository has no recorded GPU-backed deployment.
+Real models need a GPU node, the NVIDIA device plugin, and weights on `model-weights`. OpenShift AI path: [`docs/kserve.md`](docs/kserve.md) — schema-validated, **not** applied live here.
 
 ## Status
 
 **Tested in this repo:** pipeline, API, stubs, rules, eval gates, lineage, metrics, Docker image, kustomize manifests, Kind Ready + eval Job Complete ([evidence](docs/evidence/kind-apply/)), CI on `main` (lint, tests, eval, manifests, image smoke, GHCR push).
 
-**Written, not exercised on a shared GPU project:** YOLO / Tesseract / LLaVA backends (no public weights), GPU overlay, vLLM Deployment, OpenShift AI InferenceService apply.
-
-**Next door:** DDP train loop in [lora-finetune-recipe](https://github.com/lyftium/lora-finetune-recipe) (this repo holds the `PyTorchJob` YAML); gateway + agent in [agent-gateway-stack](https://github.com/lyftium/agent-gateway-stack); measured serving levers in [vllm-serving-benchmark-t4](https://github.com/lyftium/vllm-serving-benchmark-t4). Gateway design notes: [`docs/gateway.md`](docs/gateway.md).
+**Written, not exercised on a GPU cluster:** YOLO / Tesseract / LLaVA backends (no public weights), GPU overlay, vLLM Deployment, OpenShift AI InferenceService apply.
 
 MIT · [laptop smoke](docs/evidence/laptop-smoke-2026-11-04.md) · [Kind smoke](docs/evidence/kind-smoke-2026-11-04.md) · [digests](docs/image-digests.md)
