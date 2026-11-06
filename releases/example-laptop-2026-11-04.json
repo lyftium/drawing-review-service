@@ -35,6 +35,6 @@
     "kind_evidence": "docs/evidence/kind-apply/",
     "ci_enabled": true,
     "ghcr_digest_recorded": true,
-    "notes": "CPU stubs on Kind. GHCR digest verified via docker pull RepoDigests. No live GPU OpenShift apply."
+    "notes": "CPU stubs on Kind. GHCR digest verified via docker pull RepoDigests. No GPU-backed deployment."
   }
 }
