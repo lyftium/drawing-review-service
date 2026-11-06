@@ -1,6 +1,6 @@
 # Kind smoke — 2026-11-04 (America/Los_Angeles)
 
-Environment: macOS Colima (vz) + Kind cluster `drw`. Hub/GHCR pulls via host Privoxy `http://192.168.5.2:8118` (VM direct TCP egress refused under Tailscale/VZ NAT; DNS via lima gateway `192.168.5.2`).
+Environment: local macOS VM + Kind cluster `drw`. Image pulls used a local HTTP proxy; internal network details are intentionally omitted.
 
 | Check | Result |
 |---|---|
