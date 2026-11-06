@@ -75,7 +75,7 @@ DRW_STUB_CHAR_ERROR_RATE=0.03 DRW_STUB_DROP_RATE=0.05 DRW_STUB_JITTER_PX=4 \
   drawing-review eval --data golden
 ```
 
-These figures test the harness, not YOLO/OCR/LLaVA quality. A misread datum can produce a false alarm while detection still looks acceptable.
+These figures test the harness, not YOLO/OCR/LLaVA quality. A misread datum can produce a false alarm while detection still looks acceptable. [Benchmark method and saved reports](BENCHMARK.md).
 
 ## Design decisions
 
