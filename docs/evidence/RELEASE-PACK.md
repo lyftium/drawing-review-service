@@ -1,31 +1,24 @@
-# Release evidence pack (drawing-review-service)
+# Release evidence pack
 
-Screener checklist: what is **proven in-repo** vs still waiting on environment access.
+What is **implemented** and **recorded in this repository**, with the boundary of each result.
 
-| Artefact | Path | Proves | Not a claim of |
+| Artefact | Path | Evidence | Boundary |
 |---|---|---|---|
-| CPU tests | `pytest` / laptop smoke | Service contracts, stubs, eval harness load | GPU / live model quality |
-| Golden eval | `make eval` | Gates run on synthetic golden set | Customer drawings |
-| Manifest schema | [`kubeconform-2026-11-04.md`](kubeconform-2026-11-04.md) | kind/gpu/vLLM/OpenShift AI overlays validate | Live cluster apply |
-| Laptop smoke | [`laptop-smoke-2026-11-04.md`](laptop-smoke-2026-11-04.md) | 57 pytest locally | Docker Hub / Kind (DNS blocked that day) |
-| Rollback contract | [`../rollback.md`](../rollback.md) + `scripts/demo_rollback.sh` | Undo procedure exists | Captured undo transcript (needs apply) |
-| Governance | `docs/model-card.md`, `data-card.md`, `risk-register.md`, `ai-act-mapping.md` | Engineering artefacts present | Legal conformity |
-| CI workflow | `ci/github-actions-ci.yml` | Ready to enable | Green Actions badge (needs `workflow` scope) |
-| Release identity | [`releases/schema.json`](../../releases/schema.json) + [`example-laptop-2026-11-04.json`](../../releases/example-laptop-2026-11-04.json) | commit ↔ eval ↔ limits; image digest pinned `sha256:77d1723b9d2a1a565ec8fa61787db5f881bf5a77156cfa7f4744b15c893b9bad` | Digest recorded |
-| Supply chain | [`../SUPPLY_CHAIN.md`](../SUPPLY_CHAIN.md) | Cold-start inventory + offline flags | Air-gapped build proof |
+| CPU tests | [`laptop-smoke-2026-11-04.md`](laptop-smoke-2026-11-04.md) and CI | Service contracts, stubs, and evaluation harness | No GPU or real-model quality |
+| Golden evaluation | `make eval` | Synthetic golden-set gates run | Synthetic drawings only |
+| Manifest schema | [`kubeconform-2026-11-04.md`](kubeconform-2026-11-04.md) | Kubernetes and optional serving overlays validate | Not a live cluster apply |
+| Kind deployment | [`kind-smoke-2026-11-04.md`](kind-smoke-2026-11-04.md) and [`kind-apply/`](kind-apply/) | Local readiness, evaluation completion, and rollback | CPU stubs; local cluster |
+| Model/data/risk records | [`../model-card.md`](../model-card.md), [`../data-card.md`](../data-card.md), [`../risk-register.md`](../risk-register.md) | Engineering limits and controls documented | Not a compliance claim |
+| CI workflow | [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) | Enabled lint, test, evaluation, manifest, image, and GHCR jobs | See each run for its commit and status |
+| Release identity | [`releases/schema.json`](../../releases/schema.json), [`example-laptop-2026-11-04.json`](../../releases/example-laptop-2026-11-04.json), [`../image-digests.md`](../image-digests.md) | Recorded code/config/image lineage | A digest is not deployment approval |
+| Supply chain | [`../SUPPLY_CHAIN.md`](../SUPPLY_CHAIN.md) | Dependency and offline-build notes | Not an air-gapped build proof |
 
-## 90-second verify
+## Local verification
 
 ```bash
 make install && make test
 make eval
-make validate   # kubeconform — see kubeconform-2026-11-04.md
+make validate   # additionally needs kubectl and kubeconform
 ```
 
-## Still blocked on environment / user token
-
-1. `gh auth refresh -s workflow` → `bash scripts/install-github-actions.sh` + push `.github/workflows/`
-2. Docker Hub / Kind DNS → `make deploy-kind` + paste undo under `kind-apply/`
-3. Shared GPU OpenShift AI project → apply `deploy/openshift-ai`, measure TTFT, fill `docs/image-digests.md`
-
-- Kind rollback: [`kind-apply/rollback-20261104-183013.txt`](kind-apply/rollback-20261104-183013.txt)
+A further real-model/GPU deployment would need its own weights, environment, evaluation protocol, and evidence. This pack makes no such claim.
