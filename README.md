@@ -1,12 +1,14 @@
-# Drawing Review Service
+# Drawing Review Service — from prototype to testable microservice
 
 ![CI](https://github.com/lyftium/drawing-review-service/actions/workflows/ci.yml/badge.svg)
 
-I rebuilt a drawing-review pipeline as something another engineer can actually call and score: FastAPI contracts, golden eval gates, a non-root image, Kind Ready with a rollback transcript, and a GHCR digest on file.
+| | |
+|---|---|
+| **Problem** | A drawing-analysis prototype that only runs locally cannot be shared, scored, or prepared for a cluster. |
+| **Verify** | [`docs/DEMO.md`](docs/DEMO.md) · `make test` / `make eval` · Kind Ready + rollback under [`docs/evidence/`](docs/evidence/) · digest in [`docs/image-digests.md`](docs/image-digests.md) |
+| **Status** | FastAPI contracts, golden gates, non-root image, GHCR digest on file. Laptop path uses CPU stubs + synthetic drawings — no customer assets. OpenShift / KServe YAML schema-checked; **not** applied on a live GPU cluster. |
 
-What runs on a laptop today uses CPU stubs and synthetic drawings (`drawing-review golden`) — no company or customer assets. YOLO / OCR / VLM backends and OpenShift / KServe manifests are in the tree and schema-checked; I have not applied them on a live GPU cluster.
-
-[`docs/DEMO.md`](docs/DEMO.md) · `make test` · `make eval` · [`docs/evidence/`](docs/evidence/) · [`docs/image-digests.md`](docs/image-digests.md)
+Public rebuild of detect → OCR → VLM → rules → human review, with stubs so another engineer can call and score it without weights.
 
 [What’s in the repo](#whats-in-the-repo) · [Architecture](#architecture) · [Evaluation](#why-evaluation-is-split-in-two) · [Run](#run) · [Status](#status)
 
