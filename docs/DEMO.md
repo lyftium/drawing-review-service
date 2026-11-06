@@ -4,8 +4,9 @@ Run the public demonstrator locally. CPU stubs by default — no model weights r
 
 ## Prerequisites
 
-- Python 3.10+, `make`
-- Optional: Docker, Kind (for cluster smoke)
+- Python 3.11+, `make`
+- `make validate` also needs `kubectl` and `kubeconform`
+- Optional: Docker and Kind, for the cluster smoke
 
 ## Quickstart
 
@@ -16,7 +17,9 @@ make eval
 make validate
 ```
 
-**Expected:** unit/integration tests green; golden evaluation completes; manifests validate.
+`make eval` generates synthetic drawings under `golden/` and runs the gates.
+
+**Expected:** tests pass, the golden evaluation finishes, and manifest validation prints no errors.
 
 ## Optional — Kind
 
@@ -31,6 +34,4 @@ Evidence from a prior run: [`docs/evidence/kind-apply/`](evidence/kind-apply/). 
 
 ## Limitations
 
-- Default path uses CPU stubs and synthetic drawings
-- No GPU-backed deployment or real-model quality is demonstrated by these manifests
-- Kind Ready ≠ production hardening
+CPU stubs and synthetic drawings only. Kind shows the manifests apply locally. The OpenShift AI / KServe files are schema-checked and have not been applied on a GPU cluster.
