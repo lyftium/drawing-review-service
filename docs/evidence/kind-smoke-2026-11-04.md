@@ -1,6 +1,6 @@
 # Kind smoke — 2026-11-04 (America/Los_Angeles)
 
-Environment: local macOS VM + Kind cluster `drw`. Image pulls used a local HTTP proxy; internal network details are intentionally omitted.
+Environment: local Kind cluster `drw` on a laptop VM. Image pulls used a local HTTP proxy because the VM could not reach the registries directly.
 
 | Check | Result |
 |---|---|
