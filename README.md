@@ -63,9 +63,9 @@ Running the documented noisy-stub settings on the 12-drawing synthetic set gives
 
 | | clean stubs | noisy stubs |
 |---|---:|---:|
-| detection recall | 1.00 | 0.94 |
-| OCR character error rate | 0.000 | 0.023 |
-| defect recall (business) | 1.00 | 0.83 |
+| detection recall | 1.0 | 0.9419 |
+| OCR character error rate | 0.0 | 0.0233 |
+| defect recall (business) | 1.0 | 0.8333 |
 | false alarms on clean drawings | 0.00 | 0.75 |
 | release gate | pass | **fail** |
 
