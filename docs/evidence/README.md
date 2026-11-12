@@ -1,6 +1,6 @@
 # Evidence
 
-This index distinguishes recorded results from implementation scope.
+Start here after the [Demo](../DEMO.md). This index distinguishes recorded results from implementation scope.
 
 | File | What it records | Boundary |
 |---|---|---|
