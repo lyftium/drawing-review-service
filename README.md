@@ -2,6 +2,10 @@
 
 ![CI](https://github.com/lyftium/drawing-review-service/actions/workflows/ci.yml/badge.svg)
 
+[Demo](docs/DEMO.md) · [Evidence](docs/evidence/README.md) · [Benchmark](BENCHMARK.md) · [Architecture](docs/architecture.md)
+
+Service FastAPI de revue de plans (stubs CPU + Kind local) — pas une mesure de qualité modèle réelle.
+
 A drawing-analysis workflow is hard to hand over when its models, inputs, and checks live in one local script. This project separates that workflow into a FastAPI service with pluggable inference backends, typed results, a reproducible evaluation harness, and container/Kubernetes packaging. It uses synthetic drawings and keeps every result `pending_review`.
 
 CPU stubs stand in for detection, OCR, and the vision-language model. An engineer can run the API and tests without downloading weights, then use the same interfaces with optional model clients. Full walkthrough: [`docs/DEMO.md`](docs/DEMO.md).
@@ -100,6 +104,6 @@ The public evaluation has 12 synthetic drawings and stub backends. The optional 
 
 ## Documentation
 
-[Quickstart and walkthrough](docs/DEMO.md) · [Evaluation/MLOps](docs/mlops.md) · [Rollback](docs/rollback.md) · [Observability](docs/observability.md) · [Release controls](checklists/release-approval.md)
+[Demo](docs/DEMO.md) · [Evidence](docs/evidence/README.md) · [Evaluation/MLOps](docs/mlops.md) · [Rollback](docs/rollback.md) · [Observability](docs/observability.md) · [Release controls](checklists/release-approval.md)
 
 [MIT license](LICENSE) — synthetic fixtures generated in this repository; upstream models remain subject to their own licenses.
